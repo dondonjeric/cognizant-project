@@ -1,7 +1,7 @@
 package com.academy.project;
 
 import com.academy.project.model.CommunityAdminAndManager;
-import com.academy.project.repository.CommunityManagerRepository;
+import com.academy.project.repository.CommunityAdminAndManagerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
     public class CommunityAdminAndManagerTest {
         @Autowired
-        private CommunityManagerRepository repository;
+        private CommunityAdminAndManagerRepository repository;
         @Test
         @DisplayName("Given Interface Community Manager Repository" +
                 "When is executed, Community manager should be save to Database " +

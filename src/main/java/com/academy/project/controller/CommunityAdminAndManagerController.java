@@ -7,6 +7,8 @@ import com.academy.project.model.CommunityAdminAndManager;
 import com.academy.project.service.CommunityAdminAndManagerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,12 +21,14 @@ public class CommunityAdminAndManagerController {
     private ModelMapper modelMapper;
 
     @PutMapping("/{id}")
-    private UpdateAdminAndManagerRest updateCommunityAdminAndManager(@RequestBody CommunityAdminAndManager manager, @PathVariable Long id) throws RecordNotFoundException, InvalidStringFormatException, RecordNotFoundException, InvalidStringFormatException {
+
+    private ResponseEntity<UpdateAdminAndManagerRest> updateCommunityAdminAndManager(@RequestBody CommunityAdminAndManager manager, @PathVariable Long id) throws  RecordNotFoundException, InvalidStringFormatException {
         UpdateAdminAndManagerRest update =  modelMapper.map(service.updateCommunityManagerAndAdmin(manager,id), UpdateAdminAndManagerRest.class);
-        return update;
+        return new ResponseEntity<>(update, HttpStatus.OK);
     }
     @PostMapping
-    public CommunityAdminAndManager addCommunityAndAdminManager(@RequestBody CommunityAdminAndManager manager) throws InvalidStringFormatException {
-        return service.addCommunityAdminAndManager(manager);
+    public ResponseEntity<CommunityAdminAndManager> addCommunityAndAdminManager(@RequestBody CommunityAdminAndManager manager) throws InvalidStringFormatException {
+        return new ResponseEntity<>(service.addCommunityAdminAndManager(manager), HttpStatus.CREATED);
     }
+
 }
