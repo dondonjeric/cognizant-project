@@ -7,4 +7,5 @@ public class UpdateAdminAndManagerRest {
 
     private Long communityadminangmanagerid;
     private String communitadminandmanagername;
+
 }
