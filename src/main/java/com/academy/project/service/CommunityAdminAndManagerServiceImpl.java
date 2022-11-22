@@ -24,7 +24,6 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
 
     @Override
     public CommunityAdminAndManager addComManager(CommunityAdminAndManager comManager) throws InvalidStringFormatException {
-
         return repository.save(comManager);
     }
 }
