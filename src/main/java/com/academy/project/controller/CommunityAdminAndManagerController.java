@@ -20,11 +20,11 @@ public class CommunityAdminAndManagerController {
 
     @PutMapping("/{id}")
     private UpdateAdminAndManagerRest updateCommunityAdminAndManager(@RequestBody CommunityAdminAndManager manager, @PathVariable Long id) throws RecordNotFoundException, InvalidStringFormatException, RecordNotFoundException, InvalidStringFormatException {
-        UpdateAdminAndManagerRest update =  modelMapper.map(service.updateComManager(manager,id), UpdateAdminAndManagerRest.class);
+        UpdateAdminAndManagerRest update =  modelMapper.map(service.updateCommunityManagerAndAdmin(manager,id), UpdateAdminAndManagerRest.class);
         return update;
     }
     @PostMapping
     public CommunityAdminAndManager addCommunityAndAdminManager(@RequestBody CommunityAdminAndManager manager) throws InvalidStringFormatException {
-        return service.addComManager(manager);
+        return service.addCommunityAdminAndManager(manager);
     }
 }
