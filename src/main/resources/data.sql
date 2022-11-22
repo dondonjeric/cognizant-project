@@ -1,0 +1,9 @@
+INSERT INTO communityadminandmanager (communityadminandmanagername, csvemail, password, cognizantid, roletype, isactive) VALUES ('Administrator 1','admin1@softvision.com', '123','admin1','admin',TRUE);
+INSERT INTO communityadminandmanager (communityadminandmanagername, csvemail, password, cognizantid, roletype, isactive) VALUES ('Administrator 2','admin2@softvision.com', '123','admin2','admin',TRUE);
+INSERT INTO communityadminandmanager (communityadminandmanagername, csvemail, password, cognizantid, roletype, isactive) VALUES ('Administrator 3','admin3@softvision.com', '123','admin3','admin',TRUE);
+INSERT INTO communityadminandmanager (communityadminandmanagername, csvemail, password, cognizantid, roletype, isactive) VALUES ('Administrator 4','admin4@softvision.com', '123','admin4','admin',TRUE);
+INSERT INTO communityadminandmanager (communityadminandmanagername, csvemail, password, cognizantid, roletype, isactive) VALUES ('Administrator 5','admin5@softvision.com', '123','admin5','admin',TRUE);
+INSERT INTO communityadminandmanager (communityadminandmanagername, csvemail, password, cognizantid, roletype, isactive) VALUES ('Gilberto Bernardo Morales','gilbertobernardo.morales@softvision.com', '123','admin7','manager',TRUE);
+INSERT INTO communityadminandmanager (communityadminandmanagername, csvemail, password, cognizantid, roletype, isactive) VALUES ('Rennor Galicia','rennor.galicia@softvision.com', '123','admin8','manager',TRUE);
+INSERT INTO communityadminandmanager (communityadminandmanagername, csvemail, password, cognizantid, roletype, isactive) VALUES ('Florante Navaja','florante.navaja@softvision.com', '123','admin9','manager',TRUE);
+INSERT INTO communityadminandmanager (communityadminandmanagername, csvemail, password, cognizantid, roletype, isactive) VALUES ('Baron Paredes','baronpatrick.paredes@softvision.com', '123','admin10','manager',TRUE);
