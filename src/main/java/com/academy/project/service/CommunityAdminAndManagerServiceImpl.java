@@ -12,7 +12,7 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
 
     @Autowired
     private CommunityAdminAndManagerRepository repository;
-    //private static final String NAME =  "[a-zA-Z-, .Ññ]{2,20}";
+
 
     @Override
     public CommunityAdminAndManager addCommunityAdminAndManager(CommunityAdminAndManager comManager) throws InvalidStringFormatException {
@@ -23,6 +23,11 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     public CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager updateComManager, Long id) throws InvalidStringFormatException, RecordNotFoundException {
         CommunityAdminAndManager comManager = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("This community manager is not in the record!"));
+
+        if(!comManager.getIsactive()){
+            throw new RecordNotFoundException("No record found!");
+        }
+
         return repository.save(comManager);
     }
 
