@@ -13,8 +13,8 @@ public class Validator
 {
     @Autowired
     private CommunityAdminAndManagerRepository repository;
-    private static final String NAME =  "[a-zA-Z0-9]{2,}[a-zA-Z0-9-, .Ññ]";
-    private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z0-9-, .Ññ]";
+    private static final String NAME =  "[a-zA-Z0-9]+[a-zA-Z0-9-, .Ññ]+";
+    private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z0-9-, .Ññ]+";
     private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
     public CommunityAdminAndManager checkIfValidId(Long id) throws RecordNotFoundException {
