@@ -16,6 +16,7 @@ public class CommunityAdminAndManager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="communityadminandmanagerid")
     private Long id;
 
     @Column(length = 100, nullable = false, name ="communityadminandmanagername")

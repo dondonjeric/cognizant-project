@@ -13,22 +13,23 @@ public class Validator
 {
     @Autowired
     private CommunityAdminAndManagerRepository repository;
-    private static final String NAME =  "[a-zA-Z]{2,}[a-zA-Z-, .Ññ]";
-    private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z-, .Ññ]";
+    private static final String NAME =  "[a-zA-Z0-9]{2,}[a-zA-Z0-9-, .Ññ]";
+    private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z0-9-, .Ññ]";
     private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-    public void checkIfValidId(Long id) throws RecordNotFoundException {
-        repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
+    public CommunityAdminAndManager checkIfValidId(Long id) throws RecordNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
     }
 
     public void checkUpdateIfValid(CommunityAdminAndManager updateManager) throws InvalidInputException, RecordNotFoundException {
-        checkIfValidId(updateManager.getId());
-        if(!updateManager.getIsactive()){
+        CommunityAdminAndManager manager = checkIfValidId(updateManager.getId());
+        if(!manager.getIsactive()){
             throw new RecordNotFoundException("Record not found!");
         }
         checkNameIfValid(updateManager.getName());
     }
     public void checkCreateIfValid(CommunityAdminAndManager manager) throws InvalidInputException, RecordNotFoundException {
+        checkIfValidId(manager.getId());
         checkIfValid(manager);
     }
     private void checkIfValid(CommunityAdminAndManager manager) throws InvalidInputException {

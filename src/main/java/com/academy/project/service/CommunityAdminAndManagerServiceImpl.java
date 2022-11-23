@@ -20,7 +20,6 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     private Validator validator;
     @Override
     public CommunityAdminAndManager addCommunityAdminAndManager(CommunityAdminAndManager comManager) throws InvalidInputException, RecordNotFoundException {
-
         validator.checkCreateIfValid(comManager);
         return repository.save(comManager);
     }
