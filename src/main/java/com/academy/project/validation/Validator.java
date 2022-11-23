@@ -13,17 +13,17 @@ public class Validator
 {
     @Autowired
     private CommunityAdminAndManagerRepository repository;
-    private static final String NAME =  "[a-zA-Z]{2,}[a-zA-Z-, .Ññ]";
-    private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z-, .Ññ]";
+    private static final String NAME =  "[a-zA-Z0-9]+[a-zA-Z0-9-, .Ññ]+";
+    private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z0-9-, .Ññ]+";
     private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-    public void checkIfValidId(Long id) throws RecordNotFoundException {
-        repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
+    public CommunityAdminAndManager checkIfValidId(Long id) throws RecordNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
     }
 
     public void checkUpdateIfValid(CommunityAdminAndManager updateManager) throws InvalidInputException, RecordNotFoundException {
-        checkIfValidId(updateManager.getId());
-        if(!updateManager.getIsactive()){
+        CommunityAdminAndManager manager = checkIfValidId(updateManager.getId());
+        if(!manager.getIsactive()){
             throw new RecordNotFoundException("Record not found!");
         }
         checkNameIfValid(updateManager.getName());
@@ -44,10 +44,10 @@ public class Validator
             throw new InvalidInputException("Name is required!");
         }
         if(name.length() < 2){
-            throw new InvalidInputException("Name length should be a minimum of 2 characters!");
+            throw new InvalidInputException("Name length should exceed 2 characters!");
         }
         if(name.length() > 100){
-            throw new InvalidInputException("Name length should be a maximum of 100 characters!");
+            throw new InvalidInputException("Name length should not exceed 100 characters!");
         }
         if(name.matches(SPECIAL_CHARACTERS)){
             throw new InvalidInputException("Name should not contain invalid characters!");
@@ -57,12 +57,15 @@ public class Validator
         }
     }
     private void checkEmailIfValid(String email) throws InvalidInputException {
+        if(email == null){
+            throw new InvalidInputException("Email is required!");
+        }
         if(!email.matches(EMAIL)){
             throw new InvalidInputException("Invalid email format!");
         }
     }
     private void checkPasswordIfValid(String password) throws InvalidInputException {
-        if(password == null){
+        if(password == null || password.isBlank()){
             throw new NullPointerException("Password is required!");
         }
         if(password.length() > 100){
@@ -70,7 +73,7 @@ public class Validator
         }
     }
     private void checkCognizantIdIfValid(String cognizantId) throws InvalidInputException {
-        if(cognizantId == null){
+        if(cognizantId == null || cognizantId.isBlank()){
             throw new NullPointerException("CognizantId is required!");
         }
         if(cognizantId.length() > 10){
@@ -78,13 +81,13 @@ public class Validator
         }
     }
     private void checkRoleTypeIfValid(String roleType) throws InvalidInputException {
-        if(roleType == null){
+        if(roleType == null || roleType.isBlank()){
             throw new NullPointerException("Roletype is required!");
         }
         if(roleType.length() > 10){
             throw new InvalidInputException("Roletype length should be a maximum of 10 characters!");
         }
-        if(!"admin".equals(roleType) && !"manager".equals(roleType)){
+        if(!"Admin".equals(roleType) && !"Manager".equals(roleType)){
             throw new InvalidInputException("Invalid roletype given!");
         }
     }
