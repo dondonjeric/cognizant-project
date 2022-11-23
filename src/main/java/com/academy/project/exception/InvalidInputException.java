@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-public class InvalidStringFormatException extends Exception{
+public class InvalidInputException extends Exception{
 
-    public InvalidStringFormatException(String message) {
+    public InvalidInputException(String message) {
         super(message);
     }
 }

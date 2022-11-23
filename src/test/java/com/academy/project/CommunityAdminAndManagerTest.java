@@ -12,20 +12,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
     public class CommunityAdminAndManagerTest {
-        @Autowired
-        private CommunityAdminAndManagerRepository repository;
-        @Test
-        @DisplayName("Given Interface Community Manager Repository" +
-                "When is executed, Community manager should be save to Database " +
-                "Then result return ComManager")
-        public void testSave() {
-            //Arrange
-            CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Administrator 1","admin1@softvision.com","123","admin1","admin",TRUE);
-            //Act
-            CommunityAdminAndManager result = repository.save(expected);
-            //Assert
-            assertEquals(expected, result);
-        }
+//        @Autowired
+//        private CommunityAdminAndManagerRepository repository;
+//        @Test
+//        @DisplayName("Given Interface Community Manager Repository" +
+//                "When is executed, Community manager should be save to Database " +
+//                "Then result return ComManager")
+//        public void testSave() {
+//            //Arrange
+//            CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Administrator 1","admin1@softvision.com","123","admin1","admin",TRUE);
+//            //Act
+//            CommunityAdminAndManager result = repository.save(expected);
+//            //Assert
+//            assertEquals(expected, result);
+//        }
 
   /*  @Test
     @DisplayName("Given Interface Community Manager Repository" +
