@@ -13,8 +13,8 @@ public class Validator
 {
     @Autowired
     private CommunityAdminAndManagerRepository repository;
-    private static final String NAME =  "[a-zA-Z0-9]{2,}[a-zA-Z0-9-, .Ññ]";
-    private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z0-9-, .Ññ]";
+    private static final String NAME =  "[a-zA-Z0-9]+[a-zA-Z0-9-, .Ññ]+";
+    private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z0-9-, .Ññ]+";
     private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
     public CommunityAdminAndManager checkIfValidId(Long id) throws RecordNotFoundException {
@@ -29,7 +29,6 @@ public class Validator
         checkNameIfValid(updateManager.getName());
     }
     public void checkCreateIfValid(CommunityAdminAndManager manager) throws InvalidInputException, RecordNotFoundException {
-        checkIfValidId(manager.getId());
         checkIfValid(manager);
     }
     private void checkIfValid(CommunityAdminAndManager manager) throws InvalidInputException {
@@ -60,6 +59,9 @@ public class Validator
     private void checkEmailIfValid(String email) throws InvalidInputException {
         if(email == null){
             throw new InvalidInputException("Email is required!");
+        }
+        if(email.length() > 50){
+            throw new InvalidInputException("Email length should not exceed 50!");
         }
         if(!email.matches(EMAIL)){
             throw new InvalidInputException("Invalid email format!");
