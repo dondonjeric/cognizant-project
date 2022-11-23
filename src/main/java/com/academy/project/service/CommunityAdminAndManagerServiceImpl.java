@@ -23,9 +23,9 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     public CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager updateComManager, Long id) throws InvalidStringFormatException, RecordNotFoundException {
         CommunityAdminAndManager comManager = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("This community manager is not in the record!"));
-
         return repository.save(comManager);
     }
+
 
 
 }

@@ -11,7 +11,6 @@ public class ProjectApplication {
 	@Bean
 	public ModelMapper modelMapper(){
 		ModelMapper modelMapper = new ModelMapper();
-
 		return modelMapper;
 	}
 	public static void main(String[] args) {
