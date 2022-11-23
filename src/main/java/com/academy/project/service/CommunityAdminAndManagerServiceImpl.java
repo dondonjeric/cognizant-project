@@ -8,6 +8,8 @@ import com.academy.project.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndManagerService {
 
@@ -24,9 +26,11 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     }
 
     @Override
-    public CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager updateComManager, Long id) throws InvalidInputException, RecordNotFoundException {
+    public CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager updateComManager) throws InvalidInputException, RecordNotFoundException {
         validator.checkUpdateIfValid(updateComManager);
-        return repository.save(updateComManager);
+        CommunityAdminAndManager manager = repository.findById(updateComManager.getId()).get();
+        manager.setName(updateComManager.getName());
+        return repository.save(manager);
     }
 
 
