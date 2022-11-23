@@ -17,36 +17,37 @@ public class Validator
     private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z-, .Ññ]";
     private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-    public boolean checkIfValidId(Long id) throws RecordNotFoundException {
+    public void checkIfValidId(Long id) throws RecordNotFoundException {
         repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
-        return true;
     }
 
-    public boolean checkUpdateIfValid(CommunityAdminAndManager updateManager) throws InvalidInputException, RecordNotFoundException {
+    public void checkUpdateIfValid(CommunityAdminAndManager updateManager) throws InvalidInputException, RecordNotFoundException {
         checkIfValidId(updateManager.getId());
         if(!updateManager.getIsactive()){
             throw new RecordNotFoundException("Record not found!");
         }
-        return checkNameIfValid(updateManager.getName());
+        checkNameIfValid(updateManager.getName());
     }
-    public boolean checkCreateIfValid(CommunityAdminAndManager manager) throws InvalidInputException, RecordNotFoundException {
-        return checkIfValid(manager);
+    public void checkCreateIfValid(CommunityAdminAndManager manager) throws InvalidInputException, RecordNotFoundException {
+        checkIfValid(manager);
     }
-    private boolean checkIfValid(CommunityAdminAndManager manager) throws InvalidInputException {
-        return checkNameIfValid(manager.getName()) && checkEmailIfValid(manager.getEmail()) && checkCognizantIdIfValid(manager.getCognizantId())
-        && checkPasswordIfValid(manager.getPassword()) && checkRoleTypeIfValid(manager.getRoleType());
+    private void checkIfValid(CommunityAdminAndManager manager) throws InvalidInputException {
+        checkNameIfValid(manager.getName());
+        checkEmailIfValid(manager.getEmail());
+        checkCognizantIdIfValid(manager.getCognizantId());
+        checkPasswordIfValid(manager.getPassword());
+        checkRoleTypeIfValid(manager.getRoleType());
+    }
 
-    }
-
-    private boolean checkNameIfValid(String name) throws InvalidInputException {
-        if(name == null){
-            throw new NullPointerException("Name should not be null!");
+    private void checkNameIfValid(String name) throws InvalidInputException {
+        if(name == null || name.isBlank()){
+            throw new InvalidInputException("Name is required!");
         }
         if(name.length() < 2){
             throw new InvalidInputException("Name length should be a minimum of 2 characters!");
         }
-        if(name.length() > 20){
-            throw new InvalidInputException("Name length should be a maximum of 20 characters!");
+        if(name.length() > 100){
+            throw new InvalidInputException("Name length should be a maximum of 100 characters!");
         }
         if(name.matches(SPECIAL_CHARACTERS)){
             throw new InvalidInputException("Name should not contain invalid characters!");
@@ -54,48 +55,37 @@ public class Validator
         if(!name.matches(NAME)){
             throw new InvalidInputException("Name should not contain invalid characters!");
         }
-        return true;
     }
-
-    private boolean checkEmailIfValid(String email) throws InvalidInputException {
-        if(email.matches(EMAIL)){
-            return true;
+    private void checkEmailIfValid(String email) throws InvalidInputException {
+        if(!email.matches(EMAIL)){
+            throw new InvalidInputException("Invalid email format!");
         }
-        throw new InvalidInputException("Invalid email format!");
     }
-
-    private boolean checkPasswordIfValid(String password) throws InvalidInputException {
+    private void checkPasswordIfValid(String password) throws InvalidInputException {
         if(password == null){
-            throw new NullPointerException("Password should not be null!");
+            throw new NullPointerException("Password is required!");
         }
         if(password.length() > 100){
-            throw new InvalidInputException("Name length should be a maximum of 100 characters!");
+            throw new InvalidInputException("Password length should be a maximum of 100 characters!");
         }
-        return true;
     }
-    private boolean checkCognizantIdIfValid(String cognizantId) throws InvalidInputException {
+    private void checkCognizantIdIfValid(String cognizantId) throws InvalidInputException {
         if(cognizantId == null){
-            throw new NullPointerException("CognizantId should not be null");
+            throw new NullPointerException("CognizantId is required!");
         }
         if(cognizantId.length() > 10){
-            throw new InvalidInputException("Name length should be a maximum of 100 characters!");
+            throw new InvalidInputException("CognizantId length should be a maximum of 10 characters!");
         }
-        return true;
     }
-    private boolean checkRoleTypeIfValid(String roleType) throws InvalidInputException {
+    private void checkRoleTypeIfValid(String roleType) throws InvalidInputException {
         if(roleType == null){
-            throw new NullPointerException("Roletype should not be null!");
+            throw new NullPointerException("Roletype is required!");
         }
         if(roleType.length() > 10){
             throw new InvalidInputException("Roletype length should be a maximum of 10 characters!");
         }
-        if(!roleType.equals("admin".toLowerCase()) && !roleType.equals("manager".toLowerCase())){
+        if(!"admin".equals(roleType) && !"manager".equals(roleType)){
             throw new InvalidInputException("Invalid roletype given!");
         }
-
-        return true;
     }
-
-
-
 }

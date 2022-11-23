@@ -1,6 +1,7 @@
 package com.academy.project.controller;
 
 import com.academy.project.dto.CommunityAdminAndManagerDTO;
+import com.academy.project.dto.CreateCommunityAdminAndManagerRest;
 import com.academy.project.dto.UpdateCommunityAdminAndManagerRest;
 import com.academy.project.exception.InvalidInputException;
 import com.academy.project.exception.RecordNotFoundException;
@@ -26,17 +27,18 @@ public class CommunityAdminAndManagerController {
     private Validator validator;
 
     @PutMapping("/{id}")
-    private ResponseEntity<String> updateCommunityAdminAndManager(@RequestBody CommunityAdminAndManager manager, @PathVariable Long id) throws  RecordNotFoundException, InvalidInputException {
+    private ResponseEntity<String> updateCommunityAdminAndManager(@RequestBody UpdateCommunityAdminAndManagerRest updateManager, @PathVariable Long id) throws  RecordNotFoundException, InvalidInputException {
         //UpdateCommunityAdminAndManagerRest update =  modelMapper.map(service.updateCommunityManagerAndAdmin(manager,id), UpdateCommunityAdminAndManagerRest.class);
-        validator.checkIfValidId(id);
-        manager.setId(id);
+        updateManager.setId(id);
+        CommunityAdminAndManager manager = modelMapper.map(updateManager, CommunityAdminAndManager.class);
         service.updateCommunityManagerAndAdmin(manager);
         return new ResponseEntity<>("Successfully updated!", HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<String> addCommunityAndAdminManager(@RequestBody CommunityAdminAndManager manager) throws InvalidInputException, RecordNotFoundException {
+    public ResponseEntity<String> addCommunityAndAdminManager(@RequestBody CreateCommunityAdminAndManagerRest create) throws InvalidInputException, RecordNotFoundException {
+        CommunityAdminAndManager manager = modelMapper.map(create, CommunityAdminAndManager.class);
         service.addCommunityAdminAndManager(manager);
-        return new ResponseEntity<>("Successfully registered!", HttpStatus.CREATED);
+        return new ResponseEntity<>("Successfully registered!", HttpStatus.OK);
     }
 
 }

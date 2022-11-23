@@ -11,20 +11,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class RestExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<String> nullPointerException(NullPointerException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
     public ResponseEntity<String> invalidInputException(InvalidInputException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler
     public ResponseEntity<String> recordNotFoundException(RecordNotFoundException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
-
-
 }
