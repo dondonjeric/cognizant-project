@@ -17,13 +17,18 @@ public class Validator
     private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z-, .Ññ]";
     private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-
-    public boolean checkUpdateIfValid(CommunityAdminAndManager updateManager) throws InvalidInputException, RecordNotFoundException {
-        CommunityAdminAndManager manager = repository.findById(updateManager.getId())
-                .orElseThrow(() -> new RecordNotFoundException("Record not found!"));
-        return checkIfValid(manager);
+    public boolean checkIfValidId(Long id) throws RecordNotFoundException {
+        repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
+        return true;
     }
 
+    public boolean checkUpdateIfValid(CommunityAdminAndManager updateManager) throws InvalidInputException, RecordNotFoundException {
+        checkIfValidId(updateManager.getId());
+        if(!updateManager.getIsactive()){
+            throw new RecordNotFoundException("Record not found!");
+        }
+        return checkNameIfValid(updateManager.getName());
+    }
     public boolean checkCreateIfValid(CommunityAdminAndManager manager) throws InvalidInputException, RecordNotFoundException {
         return checkIfValid(manager);
     }

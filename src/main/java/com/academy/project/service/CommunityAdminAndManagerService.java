@@ -7,6 +7,6 @@ import com.academy.project.model.CommunityAdminAndManager;
 public interface CommunityAdminAndManagerService {
 
     CommunityAdminAndManager addCommunityAdminAndManager(CommunityAdminAndManager CommunityAdminAndManager) throws InvalidInputException, RecordNotFoundException;
-    CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager CommunityAdminAndManager, Long id) throws RecordNotFoundException, InvalidInputException;
+    CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager CommunityAdminAndManager) throws RecordNotFoundException, InvalidInputException;
 
 }
