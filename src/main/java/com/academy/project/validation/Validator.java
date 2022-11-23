@@ -29,7 +29,6 @@ public class Validator
         checkNameIfValid(updateManager.getName());
     }
     public void checkCreateIfValid(CommunityAdminAndManager manager) throws InvalidInputException, RecordNotFoundException {
-        checkIfValidId(manager.getId());
         checkIfValid(manager);
     }
     private void checkIfValid(CommunityAdminAndManager manager) throws InvalidInputException {
