@@ -53,7 +53,7 @@ public class CommunityAdminAndManagerServiceImplTest {
             "Given CommunityManager with the setup above " +
             "When addComManager(CommunityManager.class) is executed " +
             "Then result should return communityAdminAndManager4")
-    public void addComManager() throws InvalidInputException {
+    public void addComManager() throws InvalidInputException, RecordNotFoundException {
         //arrange
         when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(communityAdminAndManager4);
         //act
@@ -79,7 +79,7 @@ public class CommunityAdminAndManagerServiceImplTest {
         when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
         when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
         //ACT
-        CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1, id);
+        CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1);
         //ASSERT
         verify(communityManagerRepository).save(any(CommunityAdminAndManager.class));
         assertEquals(expected, result);
@@ -97,26 +97,9 @@ public class CommunityAdminAndManagerServiceImplTest {
         when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
         when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
         //ACT
-        CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1, id);
+        CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1);
         //ASSERT
         verify(communityManagerRepository).save(any(CommunityAdminAndManager.class));
         assertEquals(expected, result);
-    }@Test
-    @DisplayName("" +
-            "Given CommunityAdminAndManager with the setup above " +
-            "\nWhen updateCommunityManagerAndAdmin(CommunityAdminAndManager, Long) is executed " +
-            "\nThen result should return updated dondon")
-    public void updateCommunityAdminAndManagerWithUnAcceptedSpecialCharacters() throws RecordNotFoundException, InvalidInputException {
-        //ARRANGE
-        Long id = 1L;
-        CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
-        expected.setName("Do_-d0ñ/\\{}");
-        when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
-        when(validator.checkIfValid(any(CommunityAdminAndManager.class))).thenThrow(InvalidInputException.class);
-        //ACT
-        //ASSERT
-        assertThrows(InvalidInputException.class, () -> {
-            CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1, id);
-        });
     }
 }
