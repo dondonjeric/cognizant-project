@@ -1,5 +1,5 @@
 package com.academy.project;
-import com.academy.project.exception.InvalidStringFormatException;
+import com.academy.project.exception.InvalidInputException;
 import com.academy.project.exception.RecordNotFoundException;
 import com.academy.project.model.CommunityAdminAndManager;
 import com.academy.project.repository.CommunityAdminAndManagerRepository;
@@ -53,7 +53,7 @@ public class CommunityAdminAndManagerServiceImplTest {
             "Given CommunityManager with the setup above " +
             "When addComManager(CommunityManager.class) is executed " +
             "Then result should return communityAdminAndManager4")
-    public void addComManager() throws InvalidStringFormatException {
+    public void addComManager() throws InvalidInputException {
         //arrange
         when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(communityAdminAndManager4);
         //act
@@ -71,7 +71,7 @@ public class CommunityAdminAndManagerServiceImplTest {
             "Given CommunityAdminAndManager with the setup above " +
             "\nWhen updateCommunityAdminAndManager(CommunityAdminAndManager, Long) is executed " +
             "\nThen result should return updated dondon")
-    public void updateCommunityAdminAndManager() throws RecordNotFoundException, InvalidStringFormatException {
+    public void updateCommunityAdminAndManager() throws RecordNotFoundException, InvalidInputException {
         //ARRANGE
         Long id = 1L;
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
@@ -89,7 +89,7 @@ public class CommunityAdminAndManagerServiceImplTest {
             "Given CommunityAdminAndManager with the setup above " +
             "\nWhen updateCommunityAdminAndManager(CommunityAdminAndManager, Long) is executed " +
             "\nThen result should return updated dondon")
-    public void updateCommunityAdminAndManagerWithAcceptedSpecialCharacters() throws RecordNotFoundException, InvalidStringFormatException {
+    public void updateCommunityAdminAndManagerWithAcceptedSpecialCharacters() throws RecordNotFoundException, InvalidInputException {
         //ARRANGE
         Long id = 1L;
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
@@ -106,16 +106,16 @@ public class CommunityAdminAndManagerServiceImplTest {
             "Given CommunityAdminAndManager with the setup above " +
             "\nWhen updateCommunityManagerAndAdmin(CommunityAdminAndManager, Long) is executed " +
             "\nThen result should return updated dondon")
-    public void updateCommunityAdminAndManagerWithUnAcceptedSpecialCharacters() throws RecordNotFoundException, InvalidStringFormatException {
+    public void updateCommunityAdminAndManagerWithUnAcceptedSpecialCharacters() throws RecordNotFoundException, InvalidInputException {
         //ARRANGE
         Long id = 1L;
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         expected.setName("Do_-d0ñ/\\{}");
         when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
-        when(validator.checkIfValid(any(CommunityAdminAndManager.class))).thenThrow(InvalidStringFormatException.class);
+        when(validator.checkIfValid(any(CommunityAdminAndManager.class))).thenThrow(InvalidInputException.class);
         //ACT
         //ASSERT
-        assertThrows(InvalidStringFormatException.class, () -> {
+        assertThrows(InvalidInputException.class, () -> {
             CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1, id);
         });
     }
