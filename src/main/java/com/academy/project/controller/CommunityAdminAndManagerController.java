@@ -15,14 +15,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/community/manager")
 public class CommunityAdminAndManagerController {
-    @Autowired
+
     private CommunityAdminAndManagerService service;
 
-    @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    public CommunityAdminAndManagerController(CommunityAdminAndManagerService service, ModelMapper modelMapper) {
+        this.service = service;
+        this.modelMapper = modelMapper;
+    }
 
     @PutMapping("/{id}")
-    private ResponseEntity<String> updateCommunityAdminAndManager(@RequestBody UpdateCommunityAdminAndManagerRest updateManager, @PathVariable Long id) throws  RecordNotFoundException, InvalidInputException {
+    public ResponseEntity<String> updateCommunityAdminAndManager(@RequestBody UpdateCommunityAdminAndManagerRest updateManager, @PathVariable Long id) throws  RecordNotFoundException, InvalidInputException {
         updateManager.setId(id);
         CommunityAdminAndManager manager = modelMapper.map(updateManager, CommunityAdminAndManager.class);
         service.updateCommunityManagerAndAdmin(manager);

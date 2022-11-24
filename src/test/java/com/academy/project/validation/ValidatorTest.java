@@ -17,12 +17,12 @@ class ValidatorTest {
             "Then result should return true")
     public void checkIfManagerIsValid() throws InvalidInputException, RecordNotFoundException {
         //ARRANGE
-        CommunityAdminAndManager manager = new CommunityAdminAndManager(1L, "dondon", "admin1", "dondon@softvision.com", "dondon", "admin", true);
+        CommunityAdminAndManager manager = new CommunityAdminAndManager(1L, "dondon", "admin1", "dondon@softvision.com", "dondon", "Admin", true);
         Validator validator = new Validator();
         //ACT
-        boolean result = validator.checkCreateIfValid(manager);
+        validator.checkCreateIfValid(manager);
         //ASSERT
-        assertTrue(result);
+        assertTrue(true);
     }
     //(1L, ".dondon", "admin1", "dondon@softvision.com", "dondon", "admin", true)
 

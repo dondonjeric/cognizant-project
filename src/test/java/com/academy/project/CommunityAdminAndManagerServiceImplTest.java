@@ -37,7 +37,7 @@ public class CommunityAdminAndManagerServiceImplTest {
     private CommunityAdminAndManager communityAdminAndManager1 = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
     private CommunityAdminAndManager communityAdminAndManager2 = new CommunityAdminAndManager(1L,"Marvin Jerome Shawn", "veripro@gmail.com", "veripro", "admin1", "admin", true);
     private CommunityAdminAndManager communityAdminAndManager3 = new CommunityAdminAndManager(1L,"Baki Kel Lyoys", "veripro@gmail.com", "veripro", "admin1", "admin", true);
-    private CommunityAdminAndManager communityAdminAndManager4 = new CommunityAdminAndManager(1L,"Dean Angelo Vonn", "veripro@gmail.com", "veripro", "admin1", "admin", true);
+    private CommunityAdminAndManager communityAdminAndManager4 = new CommunityAdminAndManager(1L,"", "veripro@gmail.com", "veripro", "admin1", "admin", true);
 
     private List<CommunityAdminAndManager> allCommunityAdminAndManager;
     @BeforeEach
@@ -73,7 +73,6 @@ public class CommunityAdminAndManagerServiceImplTest {
             "\nThen result should return updated dondon")
     public void updateCommunityAdminAndManager() throws RecordNotFoundException, InvalidInputException {
         //ARRANGE
-        Long id = 1L;
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         expected.setName("jeric");
         when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
@@ -91,9 +90,42 @@ public class CommunityAdminAndManagerServiceImplTest {
             "\nThen result should return updated dondon")
     public void updateCommunityAdminAndManagerWithAcceptedSpecialCharacters() throws RecordNotFoundException, InvalidInputException {
         //ARRANGE
-        Long id = 1L;
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         expected.setName("DoÑ-d.ñ,");
+        when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
+        when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
+        //ACT
+        CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1);
+        //ASSERT
+        verify(communityManagerRepository).save(any(CommunityAdminAndManager.class));
+        assertEquals(expected, result);
+    }
+    @Test
+    @DisplayName("" +
+            "Given CommunityAdminAndManager with the setup above " +
+            "\nWhen updateCommunityAdminAndManager(CommunityAdminAndManager, Long) is executed " +
+            "\nThen result should return updated input")
+    public void updateCommunityAdminAndManagerWithNoInput() throws RecordNotFoundException, InvalidInputException {
+        //ARRANGE
+        CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
+        expected.setName("");
+        when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
+        when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
+        //ACT
+        CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1);
+        //ASSERT
+        verify(communityManagerRepository).save(any(CommunityAdminAndManager.class));
+        assertEquals(expected, result);
+    }
+    @Test
+    @DisplayName("" +
+            "Given CommunityAdminAndManager with the setup above " +
+            "\nWhen updateCommunityAdminAndManager(CommunityAdminAndManager, Long) is executed " +
+            "\nThen result should return updated input")
+    public void updateCommunityAdminAndManagerExceeding100Characters() throws RecordNotFoundException, InvalidInputException {
+        //ARRANGE
+        CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"askdjasladaksdlaaksdalaskdalaskdalaksaldkasaldkasaldkasaldkasladaklsfnakjdfbakjsbaskjbckajbsckjabsckajb", "veripro@gmail.com", "veripro", "admin1", "admin", true);
+        expected.setName("");
         when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
         when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
         //ACT

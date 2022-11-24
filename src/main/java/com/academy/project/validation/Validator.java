@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 public class Validator
 {
     @Autowired
-    private CommunityAdminAndManagerRepository repository;
-    private static final String NAME =  "[a-zA-Z0-9]+[a-zA-Z0-9-, .Ññ]+";
-    private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z0-9-, .Ññ]+";
-    private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    public CommunityAdminAndManagerRepository repository;
+    public static final String NAME =  "[a-zA-Z0-9]+[a-zA-Z0-9-, .Ññ]+";
+    public static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z0-9-, .Ññ]+";
+    public static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
     public CommunityAdminAndManager checkIfValidId(Long id) throws RecordNotFoundException {
         return repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
@@ -31,7 +31,7 @@ public class Validator
     public void checkCreateIfValid(CommunityAdminAndManager manager) throws InvalidInputException, RecordNotFoundException {
         checkIfValid(manager);
     }
-    private void checkIfValid(CommunityAdminAndManager manager) throws InvalidInputException {
+    public void checkIfValid(CommunityAdminAndManager manager) throws InvalidInputException {
         checkNameIfValid(manager.getName());
         checkEmailIfValid(manager.getEmail());
         checkCognizantIdIfValid(manager.getCognizantId());
@@ -39,7 +39,7 @@ public class Validator
         checkRoleTypeIfValid(manager.getRoleType());
     }
 
-    private void checkNameIfValid(String name) throws InvalidInputException {
+    public void checkNameIfValid(String name) throws InvalidInputException {
         if(name == null || name.isBlank()){
             throw new InvalidInputException("Name is required!");
         }
@@ -56,7 +56,7 @@ public class Validator
             throw new InvalidInputException("Name should not contain invalid characters!");
         }
     }
-    private void checkEmailIfValid(String email) throws InvalidInputException {
+    public void checkEmailIfValid(String email) throws InvalidInputException {
         if(email == null){
             throw new InvalidInputException("Email is required!");
         }
@@ -64,7 +64,7 @@ public class Validator
             throw new InvalidInputException("Invalid email format!");
         }
     }
-    private void checkPasswordIfValid(String password) throws InvalidInputException {
+    public void checkPasswordIfValid(String password) throws InvalidInputException {
         if(password == null || password.isBlank()){
             throw new NullPointerException("Password is required!");
         }
@@ -72,7 +72,7 @@ public class Validator
             throw new InvalidInputException("Password length should be a maximum of 100 characters!");
         }
     }
-    private void checkCognizantIdIfValid(String cognizantId) throws InvalidInputException {
+    public void checkCognizantIdIfValid(String cognizantId) throws InvalidInputException {
         if(cognizantId == null || cognizantId.isBlank()){
             throw new NullPointerException("CognizantId is required!");
         }
@@ -80,7 +80,7 @@ public class Validator
             throw new InvalidInputException("CognizantId length should be a maximum of 10 characters!");
         }
     }
-    private void checkRoleTypeIfValid(String roleType) throws InvalidInputException {
+    public void checkRoleTypeIfValid(String roleType) throws InvalidInputException {
         if(roleType == null || roleType.isBlank()){
             throw new NullPointerException("Roletype is required!");
         }
