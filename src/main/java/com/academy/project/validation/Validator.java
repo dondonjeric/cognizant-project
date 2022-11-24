@@ -60,6 +60,9 @@ public class Validator
         if(email == null){
             throw new InvalidInputException("Email is required!");
         }
+        if(email.length() > 50){
+            throw new InvalidInputException("Email length should not exceed 50!");
+        }
         if(!email.matches(EMAIL)){
             throw new InvalidInputException("Invalid email format!");
         }
