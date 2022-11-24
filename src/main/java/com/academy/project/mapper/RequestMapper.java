@@ -24,8 +24,8 @@ public class RequestMapper extends ModelMapper {
                 map().setName(source.getName());
                 map().setEmail(source.getEmail());
                 map().setPassword(source.getPassword());
-                map().setCognizantId(source.getCognizantId());
-                map().setRoleType(source.getRoleType());
+                map().setCognizantid(source.getCognizantId());
+                map().setRoletype(source.getRoleType());
             }
         };
     }

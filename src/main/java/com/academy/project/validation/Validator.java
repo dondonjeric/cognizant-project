@@ -34,9 +34,9 @@ public class Validator
     private void checkIfValid(CommunityAdminAndManager manager) throws InvalidInputException {
         checkNameIfValid(manager.getName());
         checkEmailIfValid(manager.getEmail());
-        checkCognizantIdIfValid(manager.getCognizantId());
+        checkCognizantIdIfValid(manager.getCognizantid());
         checkPasswordIfValid(manager.getPassword());
-        checkRoleTypeIfValid(manager.getRoleType());
+        checkRoleTypeIfValid(manager.getRoletype());
     }
 
     private void checkNameIfValid(String name) throws InvalidInputException {

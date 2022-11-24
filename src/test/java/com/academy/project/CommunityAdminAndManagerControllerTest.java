@@ -25,20 +25,31 @@ public class CommunityAdminAndManagerControllerTest {
     private CommunityAdminAndManagerService communityAdminAndManagerService;
 
 
-//    @Test
-//    public void testAddCommunityAndAdminManager_WhenValidManager_ShouldAddManagerName() throws Exception {
-//        CommunityAdminAndManager request = new CommunityAdminAndManager();
-//        request.setName("Manager");
-//        request.setId(2L);
-//        when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-//                .thenReturn(request);
-//        mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(new ObjectMapper().writeValueAsString(request)))
-//                .andExpect(status().isOk())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Manager"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(2L));
-//
-//    }
+    @Test
+    public void testAddCommunityAndAdminManager_WhenValidManager_ShouldAddManagerName() throws Exception {
+        CommunityAdminAndManager request = new CommunityAdminAndManager();
+        request.setName("Manager");
+        request.setId(2L);
+        request.setRoletype("admin");
+        request.setEmail("Aj@Gmail.com");
+        request.setPassword("admin1234");
+        request.setCognizantid("admin1234");
+        when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
+                .thenReturn(request);
+        mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(request)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].name").value("Manager"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].id").value(2L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].email").value("Aj@gmail.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].cognizantid").value("admin1234"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].password").value("admin123"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].roletype").value("admin"))
+                .andExpect(status().isOk());
+
+
+
+    }
 
 }

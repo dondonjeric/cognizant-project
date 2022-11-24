@@ -9,22 +9,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ValidatorTest {
 
-    //(1L, "dondon", "admin1", "dondon@softvision.com", "dondon", "admin", true)
     @Test
     @DisplayName("" +
             "Given a CommunitAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should return true")
     public void checkIfManagerIsValid() throws InvalidInputException, RecordNotFoundException {
-        //ARRANGE
-        CommunityAdminAndManager manager = new CommunityAdminAndManager(1L, "dondon", "admin1", "dondon@softvision.com", "dondon", "admin", true);
-        Validator validator = new Validator();
-        //ACT
-      //  boolean result = validator.checkCreateIfValid(manager);
-        //ASSERT
-     //   assertTrue(result);
-    }
-    //(1L, ".dondon", "admin1", "dondon@softvision.com", "dondon", "admin", true)
 
+   }
 
 }

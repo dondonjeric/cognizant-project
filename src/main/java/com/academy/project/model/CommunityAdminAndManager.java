@@ -23,7 +23,7 @@ public class CommunityAdminAndManager {
     private String name;
 
     @Column(length = 10, nullable = false, name ="cognizantid")
-    private String cognizantId;
+    private String cognizantid;
 
     @Column(length = 50, nullable = false, name ="csvemail")
     private String email;
@@ -32,7 +32,7 @@ public class CommunityAdminAndManager {
     private String password;
 
     @Column(length = 10, nullable = false, name ="roletype")
-    private String roleType;
+    private String roletype;
 
     @Column(nullable = false)
     private Boolean isactive = true; // design tech lead question
