@@ -15,7 +15,13 @@ class ValidatorTest {
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should return true")
     public void checkIfManagerIsValid() throws InvalidInputException, RecordNotFoundException {
-
-   }
-
+        //ARRANGE
+        CommunityAdminAndManager manager = new CommunityAdminAndManager(1L, ".dondon", "admin1", "dondon@softvision.com", "dondon", "admin", true);
+        Validator validator = new Validator();
+        //ACT
+        assertThrows(InvalidInputException.class, () -> {
+            //boolean result = validator.checkCreateIfValid(manager);
+        });
+        //ASSERT//
+    }
 }

@@ -14,6 +14,7 @@ public class RequestMapper extends ModelMapper {
     public RequestMapper(){
         this.addMappings(updateMapper());
         this.addMappings(createMapper());
+
     }
 
     private PropertyMap<CreateCommunityAdminAndManagerRest, CommunityAdminAndManager> createMapper(){
