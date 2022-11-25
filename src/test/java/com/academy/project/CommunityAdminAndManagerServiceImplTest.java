@@ -20,6 +20,7 @@ import java.util.Optional;
 
 
 import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -45,8 +46,6 @@ public class CommunityAdminAndManagerServiceImplTest {
         allCommunityAdminAndManager = List.of(communityAdminAndManager1, communityAdminAndManager2, communityAdminAndManager3, communityAdminAndManager4);
 
     }
-
-
 
     @Test
     @DisplayName("" +

@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,7 +42,7 @@ public class CommunityAdminAndManagerControllerTest {
             "Then result should return communityAdminAndManager1")
     public void testGivenUpdatedEmployee_PositiveCase() throws Exception {
 
-
+        Validator validator = new Validator();
         //ARRANGE
         UpdateCommunityAdminAndManagerRest request = new UpdateCommunityAdminAndManagerRest();
         request.setName("von");
@@ -72,7 +73,7 @@ public class CommunityAdminAndManagerControllerTest {
     }
     @Test
     public void testGivenUpdatedEmployee_WhenNoGivenName() throws Exception {
-
+        //Act
         UpdateCommunityAdminAndManagerRest request = new UpdateCommunityAdminAndManagerRest();
         request.setName("");
         request.setId(1L);
@@ -84,29 +85,23 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantId("admin1234");
 
-        //ACT
-        when(communityAdminAndManagerService.updateCommunityManagerAndAdmin(any(CommunityAdminAndManager.class))).thenReturn(response);
-
-        MvcResult mvcResult = mockMvc.perform(put("/community/manager/{id}", 1L)
+        //Arrange
+        String expected = "Name is required!";
+        when(communityAdminAndManagerService.updateCommunityManagerAndAdmin(any(CommunityAdminAndManager.class)))
+                .thenThrow(new InvalidInputException(expected));
+        //Assert
+       mockMvc.perform(put("/community/manager/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
 
-        //ARRANGE
-        String result = mvcResult.getResponse().getContentAsString();
-        String expected = "Name is required!";
-        Validator validator = new Validator();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkNameIfValid(request.getName());
-        });
 
-        assertTrue(thrown.getMessage().contains(expected));
     }
     @Test
     public void testGivenUpdatedEmployee_WhenItHasLessThanMinimumCharacters() throws Exception {
-
+        //ACT
         UpdateCommunityAdminAndManagerRest request = new UpdateCommunityAdminAndManagerRest();
         request.setName("A");
         request.setId(1L);
@@ -118,29 +113,26 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantId("admin1234");
 
-        //ACT
-        when(communityAdminAndManagerService.updateCommunityManagerAndAdmin(any(CommunityAdminAndManager.class))).thenReturn(response);
-
+        //ARRANGE
+        String expected ="Name length should exceed 2 characters!";
+        when(communityAdminAndManagerService.updateCommunityManagerAndAdmin(any(CommunityAdminAndManager.class))).thenThrow(new InvalidInputException(expected));
+        //Assert
         mockMvc.perform(put("/community/manager/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
 
-        //ARRANGE
 
-        String expected ="Name length should exceed 2 characters!";
-        Validator validator = new Validator();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkNameIfValid(request.getName());
-        });
 
-        assertTrue(thrown.getMessage().contains(expected));
+
+
     }
     @Test
     public void testGivenUpdatedEmployee_WhenLengthExceeds100() throws Exception {
-
+        //Act
+        Validator validator = new Validator();
         UpdateCommunityAdminAndManagerRest request = new UpdateCommunityAdminAndManagerRest();
         //103 letters
         request.setName("askdjasladaksdlaaksdalaskdalaskdalaksaldkasaldkasaldkasaldkasladaklsfnakjdfbakjsbaskjbckajbsckjabsckajb");
@@ -153,31 +145,28 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantId("admin1234");
 
-        //ACT
-        when(communityAdminAndManagerService.updateCommunityManagerAndAdmin(any(CommunityAdminAndManager.class))).thenReturn(response);
-
+        //Arrange
+        String expected ="Name length should not exceed 100 characters!";
+        when(communityAdminAndManagerService.updateCommunityManagerAndAdmin(any(CommunityAdminAndManager.class))).thenThrow(new InvalidInputException(expected));
+        //Assert
         mockMvc.perform(put("/community/manager/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
 
-        //ARRANGE
 
-        String expected ="Name length should not exceed 100 characters!";
-        Validator validator = new Validator();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkNameIfValid(request.getName());
-        });
 
-        assertTrue(thrown.getMessage().contains(expected));
+
+
+
     }
     @Test
     public void testGivenUpdatedEmployee_WhenSpecialCharactersAreInput() throws Exception {
-
+        Validator validator = new Validator();
         UpdateCommunityAdminAndManagerRest request = new UpdateCommunityAdminAndManagerRest();
-        //103 letters
+        //Act
         request.setName("*&!Alexander");
         request.setId(1L);
         CommunityAdminAndManager response = new CommunityAdminAndManager();
@@ -188,29 +177,23 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantId("admin1234");
 
-        //ACT
-        when(communityAdminAndManagerService.updateCommunityManagerAndAdmin(any(CommunityAdminAndManager.class))).thenReturn(response);
-
+        //Arrange
+        String expected ="Name should not contain invalid characters!";
+        when(communityAdminAndManagerService.updateCommunityManagerAndAdmin(any(CommunityAdminAndManager.class))).thenThrow(new InvalidInputException(expected));
+        //Assert
         mockMvc.perform(put("/community/manager/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
 
-        //ARRANGE
 
-        String expected ="Name should not contain invalid characters!";
-        Validator validator = new Validator();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkNameIfValid(request.getName());
-        });
-
-        assertTrue(thrown.getMessage().contains(expected));
     }
     @Test
     public void testGivenUpdatedEmployee_WhenNameInput_DoesNotMatchName() throws Exception {
-
+        //Act
+        Validator validator = new Validator();
         UpdateCommunityAdminAndManagerRest request = new UpdateCommunityAdminAndManagerRest();
         //103 letters
         request.setName("_don");
@@ -223,24 +206,17 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantId("admin1234");
 
-        //ACT
-        when(communityAdminAndManagerService.updateCommunityManagerAndAdmin(any(CommunityAdminAndManager.class))).thenReturn(response);
-
+        //Arrange
+        String expected ="Name should not contain invalid characters!";
+        when(communityAdminAndManagerService.updateCommunityManagerAndAdmin(any(CommunityAdminAndManager.class))).thenThrow(new InvalidInputException(expected));
+        //Assert
         mockMvc.perform(put("/community/manager/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
 
-        //ARRANGE
 
-        String expected ="Name should not contain invalid characters!";
-        Validator validator = new Validator();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkNameIfValid(request.getName());
-        });
-
-        assertTrue(thrown.getMessage().contains(expected));
     }
 }
