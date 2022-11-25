@@ -8,7 +8,6 @@ import com.academy.project.service.CommunityAdminAndManagerService;
 import com.academy.project.validation.Validator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -63,40 +61,7 @@ public class CommunityAdminAndManagerControllerTest {
         String expected ="Successfully registered!";
         assertEquals(expected,content);
     }
-//    @Test
-//    public void testAddCommunityAndAdminManager_NegativeCase_For_CheckCreatedIfValidTable() throws Exception {
-//
-//        Validator validator =new Validator();
-//
-//        CreateCommunityAdminAndManagerRest request = new CreateCommunityAdminAndManagerRest();
-//        request.setName("Manager");
-//        request.setId(2L);
-//        request.setRoleType("admin");
-//        request.setEmail("Cognizant.com");
-//        request.setPassword("admin1234");
-//        request.setCognizantId("34254454564655");
-//        CommunityAdminAndManager response = new CommunityAdminAndManager();
-//        response.setName("Manager");
-//        response.setId(2L);
-//        response.setRoletype("Admin");
-//        response.setEmail("Cognizant@mail.com");
-//        response.setPassword("admin1234");
-//        response.setCognizantid("admin1234");
-//        when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-//                .thenReturn(response);
-//        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON)
-//                        .content(new ObjectMapper().writeValueAsString(request)))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//        CreateCommunityAdminAndManagerRest manager = request;
-//        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-//            validator.checkCreateIfValid(manager);
-//        });
-//        assertTrue(thrown.getMessage().contains("Record not found!"));
-//    }
+
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_Name_NotNull() throws Exception {
 
@@ -117,17 +82,14 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Name is required!"));
          mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkNameIfValid(request.getName());
-      });
-        assertTrue(thrown.getMessage().contains("Name is required!"));
+
     }
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_Name_Length_ShouldNotExceed2() throws Exception {
@@ -149,17 +111,13 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Name length should exceed 2 characters!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkNameIfValid(request.getName());
-        });
-        assertTrue(thrown.getMessage().contains("Name length should exceed 2 characters!"));
     }
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_Name_LengthLessShouldNotExceed100() throws Exception {
@@ -181,50 +139,43 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Name length should not exceed 100 characters!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkNameIfValid(request.getName());
-        });
-        assertTrue(thrown.getMessage().contains("Name length should not exceed 100 characters!"));
     }
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_Name_ShouldNotContainInvalidCharacters() throws Exception {
 
         Validator validator =new Validator();
-
-        CreateCommunityAdminAndManagerRest request = new CreateCommunityAdminAndManagerRest();
-        request.setName("@SD!!a");
-        request.setId(2L);
-        request.setRoleType("admin");
+        CommunityAdminAndManager request = new CommunityAdminAndManager();
+        request.setName("}{}{fgfdg");
+        request.setId(1L);
+        request.setRoletype("admin");
         request.setEmail("Cognizant@mail.com");
         request.setPassword("admin12343455");
-        request.setCognizantId("admin1234");
+        request.setCognizantid("admin1234");
         CommunityAdminAndManager response = new CommunityAdminAndManager();
-        response.setName("Manager");
+        response.setName("@113");
         response.setId(2L);
         response.setRoletype("Admin");
         response.setEmail("Cognizant@mail.com");
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
+
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Name should not contain invalid characters!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkNameIfValid(request.getName());
-        });
-        assertTrue(thrown.getMessage().contains("Name should not contain invalid characters!"));
     }
+
 
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_Name_ShouldNotContainInvalidCharacter() throws Exception {
@@ -246,17 +197,13 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Name should not contain invalid characters!") );
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkNameIfValid(request.getName());
-        });
-        assertTrue(thrown.getMessage().contains("Name should not contain invalid characters!"));
     }
 
     @Test
@@ -279,18 +226,16 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("CognizantId is required!") );
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkCognizantIdIfValid(request.getCognizantId());
-        });
-        assertTrue(thrown.getMessage().contains("CognizantId is required!"));
     }
+
+
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_CognizantId_ShouldNotBeExceedOf10() throws Exception {
 
@@ -311,18 +256,15 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("CognizantId length should be a maximum of 10 characters!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkCognizantIdIfValid(request.getCognizantId());
-        });
-        assertTrue(thrown.getMessage().contains("CognizantId length should be a maximum of 10 characters!"));
     }
+
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_EmailIfValid_ShouldNotBeNull() throws Exception {
 
@@ -343,17 +285,13 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Email is required!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkEmailIfValid(request.getEmail());
-        });
-        assertTrue(thrown.getMessage().contains("Email is required!"));
     }
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_EmailIfValid_ForEmailFormat() throws Exception {
@@ -375,17 +313,13 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Invalid email format!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkEmailIfValid(request.getEmail());
-        });
-        assertTrue(thrown.getMessage().contains("Invalid email format!"));
     }
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_NoPasswordShouldNull() throws Exception {
@@ -407,17 +341,13 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Password is required!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkPasswordIfValid(request.getPassword());
-        });
-        assertTrue(thrown.getMessage().contains("Password is required!"));
     }
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_PasswordShouldNotExceed100() throws Exception {
@@ -439,17 +369,13 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Password length should be a maximum of 100 characters!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkPasswordIfValid(request.getPassword());
-        });
-        assertTrue(thrown.getMessage().contains("Password length should be a maximum of 100 characters!"));
     }
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_RoleTypeShouldNotNull() throws Exception {
@@ -471,17 +397,13 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Roletype is required!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkRoleTypeIfValid(request.getRoleType());
-        });
-        assertTrue(thrown.getMessage().contains("Roletype is required!"));
     }
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_RoleTypeShouldNotExceed10() throws Exception {
@@ -503,17 +425,13 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Roletype length should be a maximum of 10 characters!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkRoleTypeIfValid(request.getRoleType());
-        });
-        assertTrue(thrown.getMessage().contains("Roletype length should be a maximum of 10 characters!"));
     }
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_RoleTypeAdmin() throws Exception {
@@ -535,17 +453,13 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Invalid roletype given!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkRoleTypeIfValid(request.getRoleType());
-        });
-        assertTrue(thrown.getMessage().contains("Invalid roletype given!"));
     }
     @Test
     public void testAddCommunityAndAdminManager_NegativeCase_For_RoleTypeManager() throws Exception {
@@ -567,17 +481,14 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantid("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenReturn(response);
+                .thenThrow(new InvalidInputException("Invalid roletype given!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
-        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkRoleTypeIfValid(request.getRoleType());
-        });
-        assertTrue(thrown.getMessage().contains("Invalid roletype given!"));
+
     }
 
 }
