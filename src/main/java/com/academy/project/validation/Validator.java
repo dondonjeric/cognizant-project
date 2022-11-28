@@ -72,7 +72,7 @@ public class Validator
             throw new InvalidInputException("Password is required!");
         }
         if(password.length() > 100){
-            throw new InvalidInputException("Password length should be a maximum of 100 characters!");
+            throw new InvalidInputException("Password length should not exceed 100 characters!");
         }
     }
     public void checkCognizantIdIfValid(String cognizantId) throws InvalidInputException {
