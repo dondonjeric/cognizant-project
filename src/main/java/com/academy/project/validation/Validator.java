@@ -7,6 +7,8 @@ import com.academy.project.repository.CommunityAdminAndManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 
 @Component
 public class Validator
@@ -66,6 +68,10 @@ public class Validator
         if(!email.matches(EMAIL)){
             throw new InvalidInputException("Invalid email format!");
         }
+        Optional<String> existing= repository.findByEmail(email);
+        if(existing.isPresent()){
+            throw new InvalidInputException("Email must be unique");
+        }
     }
     public void checkPasswordIfValid(String password) throws InvalidInputException {
         if(password == null || password.isBlank()){
@@ -77,6 +83,7 @@ public class Validator
         if(!password.matches(NAME)){
             throw new InvalidInputException("Password should not contain invalid characters!");
         }
+
     }
     public void checkCognizantIdIfValid(String cognizantId) throws InvalidInputException {
         if(cognizantId == null || cognizantId.isBlank()){
@@ -87,6 +94,10 @@ public class Validator
         }
         if(!cognizantId.matches(NAME)){
             throw new InvalidInputException("CognizantId should not contain invalid characters!");
+        }
+        Optional<String> existing= repository.findByCognizantId(cognizantId);
+        if(existing.isPresent()){
+            throw new InvalidInputException("CognizantId must be unique");
         }
     }
     public void checkRoleTypeIfValid(String roleType) throws InvalidInputException {
