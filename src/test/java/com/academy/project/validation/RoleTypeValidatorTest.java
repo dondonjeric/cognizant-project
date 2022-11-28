@@ -33,7 +33,7 @@ public class RoleTypeValidatorTest {
             validator.checkRoleTypeIfValid("qwertyuiopas");
         });
         //Assert
-        assertTrue(thrown.getMessage().contains("Roletype length should be a maximum of 10 characters!"));
+        assertTrue(thrown.getMessage().contains("Roletype length should not exceed 10 characters!"));
     }
     @Test
     @DisplayName("Given a CommunitAdminAndManager with the setup above " +
