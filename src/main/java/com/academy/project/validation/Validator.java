@@ -88,7 +88,7 @@ public class Validator
             throw new InvalidInputException("Roletype is required!");
         }
         if(roleType.length() > 10){
-            throw new InvalidInputException("Roletype length should be a maximum of 10 characters!");
+            throw new InvalidInputException("Roletype length should not exceed 10 characters!");
         }
         if(!"Admin".equals(roleType) && !"Manager".equals(roleType)){
             throw new InvalidInputException("Invalid roletype given!");
