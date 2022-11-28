@@ -33,6 +33,6 @@ public class CognizantIdValidatorTest {
             validator.checkCognizantIdIfValid("admin123456");
         });
         //Assert
-        assertTrue(thrown.getMessage().contains("CognizantId length should be a maximum of 10 characters!"));
+        assertTrue(thrown.getMessage().contains("CognizantId length should not exceed of 10 characters!"));
     }
 }

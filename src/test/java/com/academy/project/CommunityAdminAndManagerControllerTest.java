@@ -437,7 +437,7 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantId("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenThrow(new InvalidInputException("CognizantId length should be a maximum of 10 characters!"));
+                .thenThrow(new InvalidInputException("CognizantId length should not exceed of 10 characters!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)

@@ -13,7 +13,7 @@ public class Validator
 {
     @Autowired
     private CommunityAdminAndManagerRepository repository;
-    private static final String NAME =  "[a-zA-Z0-9]+[a-zA-Z0-9-, .Ññ]+";
+    private static final String NAME =  "[a-zA-Z]+[a-zA-Z-, .Ññ]+";
     private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z0-9-, .Ññ]+";
     private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
@@ -74,13 +74,19 @@ public class Validator
         if(password.length() > 100){
             throw new InvalidInputException("Password length should be a maximum of 100 characters!");
         }
+        if(!password.matches(NAME)){
+            throw new InvalidInputException("Password should not contain invalid characters!");
+        }
     }
     public void checkCognizantIdIfValid(String cognizantId) throws InvalidInputException {
         if(cognizantId == null || cognizantId.isBlank()){
             throw new InvalidInputException("CognizantId is required!");
         }
         if(cognizantId.length() > 10){
-            throw new InvalidInputException("CognizantId length should be a maximum of 10 characters!");
+            throw new InvalidInputException("CognizantId length should not exceed of 10 characters!");
+        }
+        if(!cognizantId.matches(NAME)){
+            throw new InvalidInputException("CognizantId should not contain invalid characters!");
         }
     }
     public void checkRoleTypeIfValid(String roleType) throws InvalidInputException {
