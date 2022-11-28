@@ -2,6 +2,8 @@ package com.academy.project.mapper;
 
 
 import com.academy.project.dto.CreateCommunityAdminAndManagerRest;
+import com.academy.project.dto.DeleteCommunityAdminAndManagerRest;
+import com.academy.project.dto.GetActiveCommunityAdminAndManagerRest;
 import com.academy.project.dto.UpdateCommunityAdminAndManagerRest;
 import com.academy.project.model.CommunityAdminAndManager;
 import org.modelmapper.ModelMapper;
@@ -14,6 +16,8 @@ public class RequestMapper extends ModelMapper {
     public RequestMapper(){
         this.addMappings(updateMapper());
         this.addMappings(createMapper());
+        this.addMappings(getAllActiveMapper());
+        this.addMappings(deleteMapper());
     }
 
     private PropertyMap<CreateCommunityAdminAndManagerRest, CommunityAdminAndManager> createMapper(){
@@ -35,6 +39,28 @@ public class RequestMapper extends ModelMapper {
             protected void configure() {
                 map().setId(source.getId());
                 map().setName(source.getName());
+            }
+        };
+    }
+
+    private PropertyMap<CommunityAdminAndManager, GetActiveCommunityAdminAndManagerRest> getAllActiveMapper(){
+        return new PropertyMap<CommunityAdminAndManager, GetActiveCommunityAdminAndManagerRest>() {
+            @Override
+            protected void configure() {
+                map().setId(source.getId());
+                map().setName(source.getName());
+                map().setCognizantId(source.getCognizantId());
+                map().setEmail(source.getEmail());
+                map().setRoleType(source.getRoleType());
+            }
+        };
+    }
+
+    private PropertyMap<DeleteCommunityAdminAndManagerRest, CommunityAdminAndManager> deleteMapper(){
+        return new PropertyMap<DeleteCommunityAdminAndManagerRest, CommunityAdminAndManager>() {
+            @Override
+            protected void configure() {
+                map().setIsactive(source.isIsactive());
             }
         };
     }

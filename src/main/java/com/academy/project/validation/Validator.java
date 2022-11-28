@@ -94,4 +94,10 @@ public class Validator
             throw new InvalidInputException("Invalid roletype given!");
         }
     }
+
+    public void checkIsActiveIfValid(boolean isactive) throws IllegalArgumentException{
+        if (isactive == false){
+            throw new IllegalArgumentException("This Manager or Admin is already deleted");
+        }
+    }
 }
