@@ -82,7 +82,7 @@ public class Validator
     }
     public void checkRoleTypeIfValid(String roleType) throws InvalidInputException {
         if(roleType == null || roleType.isBlank()){
-            throw new NullPointerException("Roletype is required!");
+            throw new InvalidInputException("Roletype is required!");
         }
         if(roleType.length() > 10){
             throw new InvalidInputException("Roletype length should be a maximum of 10 characters!");
