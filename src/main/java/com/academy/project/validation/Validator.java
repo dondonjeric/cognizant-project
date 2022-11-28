@@ -69,7 +69,7 @@ public class Validator
     }
     public void checkPasswordIfValid(String password) throws InvalidInputException {
         if(password == null || password.isBlank()){
-            throw new NullPointerException("Password is required!");
+            throw new InvalidInputException("Password is required!");
         }
         if(password.length() > 100){
             throw new InvalidInputException("Password length should be a maximum of 100 characters!");
@@ -77,7 +77,7 @@ public class Validator
     }
     public void checkCognizantIdIfValid(String cognizantId) throws InvalidInputException {
         if(cognizantId == null || cognizantId.isBlank()){
-            throw new NullPointerException("CognizantId is required!");
+            throw new InvalidInputException("CognizantId is required!");
         }
         if(cognizantId.length() > 10){
             throw new InvalidInputException("CognizantId length should be a maximum of 10 characters!");
@@ -85,7 +85,7 @@ public class Validator
     }
     public void checkRoleTypeIfValid(String roleType) throws InvalidInputException {
         if(roleType == null || roleType.isBlank()){
-            throw new NullPointerException("Roletype is required!");
+            throw new InvalidInputException("Roletype is required!");
         }
         if(roleType.length() > 10){
             throw new InvalidInputException("Roletype length should be a maximum of 10 characters!");
