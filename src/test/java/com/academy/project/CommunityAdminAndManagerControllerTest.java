@@ -550,7 +550,7 @@ public class CommunityAdminAndManagerControllerTest {
         response.setPassword("admin1234");
         response.setCognizantId("admin1234");
         when(communityAdminAndManagerService.addCommunityAdminAndManager(any(CommunityAdminAndManager.class)))
-                .thenThrow(new InvalidInputException("Password length should be a maximum of 100 characters!"));
+                .thenThrow(new InvalidInputException("Password length should not exceed 100 characters!"));
         mockMvc.perform(MockMvcRequestBuilders.post("/community/manager")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
