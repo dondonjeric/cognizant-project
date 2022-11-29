@@ -34,5 +34,9 @@ public class CommunityAdminAndManagerController {
         service.addCommunityAdminAndManager(manager);
         return new ResponseEntity<>("Successfully registered!", HttpStatus.OK);
     }
-
+      @DeleteMapping("/{id}")
+     public ResponseEntity<String> deleteCommunityManagerAndAdmin(@PathVariable Long id) throws RecordNotFoundException {
+        service.deleteCommunityManagerAndAdmin(id);
+        return new ResponseEntity<>("Successfully deleted!", HttpStatus.OK);
+    }
 }
