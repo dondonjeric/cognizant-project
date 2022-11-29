@@ -11,6 +11,10 @@ public interface CommunityAdminAndManagerService {
 
     CommunityAdminAndManager addCommunityAdminAndManager(CommunityAdminAndManager CommunityAdminAndManager) throws InvalidInputException, RecordNotFoundException;
     CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager CommunityAdminAndManager) throws RecordNotFoundException, InvalidInputException;
+
+    void deleteCommunityManagerAndAdmin(Long id ) throws RecordNotFoundException;
+
     Page<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Pageable pageable);
     Page<CommunityAdminAndManager> defaultGetAllActiveCommunityAdminAndManager(Pageable pageable);
+
 }

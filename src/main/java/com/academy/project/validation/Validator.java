@@ -20,7 +20,7 @@ public class Validator
     private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
     private static final String PASSWORD =  "[a-zA-Z]+[a-zA-Z0-9]+";
     private static final String PASSWORD1 =  "[0-9]+[a-zA-Z]+[a-zA-Z0-9]+";
-
+    private static final String COGNIZANT_ID = "[0-9]+";
     public CommunityAdminAndManager checkIfValidId(Long id) throws RecordNotFoundException {
         return repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
     }
@@ -95,7 +95,7 @@ public class Validator
         if(cognizantId.length() > 10){
             throw new InvalidInputException("CognizantId length should not exceed of 10 characters!");
         }
-        if(!cognizantId.matches(NAME)){
+        if(!cognizantId.matches(COGNIZANT_ID)){
             throw new InvalidInputException("CognizantId should not contain invalid characters!");
         }
         Optional<String> existing= repository.findByCognizantId(cognizantId);

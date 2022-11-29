@@ -24,6 +24,7 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
 
     @Autowired
     private Validator validator;
+
     @Override
     public CommunityAdminAndManager addCommunityAdminAndManager(CommunityAdminAndManager comManager) throws InvalidInputException, RecordNotFoundException {
         validator.checkCreateIfValid(comManager);
@@ -37,8 +38,20 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
         manager.setName(updateComManager.getName());
         return repository.save(manager);
     }
-
     @Override
+    public Page<CommunityAdminAndManager> getAllAdminAndManager(Pageable pageable) {
+        Page<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable);
+        return adminAndManagers;
+    }
+    @Override
+    public void deleteCommunityManagerAndAdmin(Long id) throws RecordNotFoundException {
+        CommunityAdminAndManager communityAdminAndManager = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
+        if (!communityAdminAndManager.getIsactive()) {
+            throw new RecordNotFoundException("Record not found!");
+        }
+        communityAdminAndManager.setIsactive(false);
+        repository.save(communityAdminAndManager);
+    }
     public Page<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Pageable pageable){
         List<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable).stream().filter(CommunityAdminAndManager::getIsactive).collect(Collectors.toList());
         return new PageImpl<>(adminAndManagers);
