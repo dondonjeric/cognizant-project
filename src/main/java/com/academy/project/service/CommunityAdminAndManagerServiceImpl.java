@@ -7,11 +7,14 @@ import com.academy.project.repository.CommunityAdminAndManagerRepository;
 import com.academy.project.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndManagerService {
@@ -36,10 +39,20 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     }
 
     @Override
-    public Page<CommunityAdminAndManager> getAllAdminAndManager(Pageable pageable){
-        Page<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable);
-        return adminAndManagers;
+    public Page<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Pageable pageable){
+        List<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable).stream().filter(CommunityAdminAndManager::getIsactive).collect(Collectors.toList());
+        return new PageImpl<>(adminAndManagers);
     }
 
+    @Override
+    public Page<CommunityAdminAndManager> defaultGetAllActiveCommunityAdminAndManager(Pageable pageable) {
+        List<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable).stream().filter(CommunityAdminAndManager::getIsactive).collect(Collectors.toList());
+        return new PageImpl<>(adminAndManagers);
+    }
+//    @Override
+//    public Page<CommunityAdminAndManager> defaultGetAllActiveCommunityAdminAndManager(Pageable pageable){
+//        List<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable).stream().filter(CommunityAdminAndManager::getIsactive).collect(Collectors.toList());
+//        return new PageImpl<>(adminAndManagers);
+//    }
 
 }
