@@ -15,7 +15,7 @@ public class RoleTypeValidatorTest {
         //Arrange
         Validator validator = new Validator();
         //Act
-        NullPointerException thrown = assertThrows(NullPointerException.class, () -> {
+        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
             validator.checkRoleTypeIfValid(null);
         });
         //Assert
