@@ -18,6 +18,8 @@ public class Validator
     private static final String NAME =  "[a-zA-Z]+[a-zA-Z-, .Ññ]+";
     private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z0-9-, .Ññ]+";
     private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    private static final String PASSWORD =  "[a-zA-Z]+[a-zA-Z0-9]+";
+    private static final String PASSWORD1 =  "[0-9]+[a-zA-Z]+[a-zA-Z0-9]+";
 
     public CommunityAdminAndManager checkIfValidId(Long id) throws RecordNotFoundException {
         return repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
@@ -80,7 +82,8 @@ public class Validator
         if(password.length() > 100){
             throw new InvalidInputException("Password length should not exceed 100 characters!");
         }
-        if(!password.matches(NAME)){
+
+        if(!password.matches(PASSWORD)&& !password.matches(PASSWORD1)){
             throw new InvalidInputException("Password should not contain invalid characters!");
         }
 
