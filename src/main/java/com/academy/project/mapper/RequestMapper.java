@@ -2,6 +2,7 @@ package com.academy.project.mapper;
 
 
 import com.academy.project.dto.CreateCommunityAdminAndManagerRest;
+import com.academy.project.dto.GetAllActiveCommunityAdminAndManagerRest;
 import com.academy.project.dto.UpdateCommunityAdminAndManagerRest;
 import com.academy.project.model.CommunityAdminAndManager;
 import org.modelmapper.ModelMapper;
@@ -35,6 +36,18 @@ public class RequestMapper extends ModelMapper {
             protected void configure() {
                 map().setId(source.getId());
                 map().setName(source.getName());
+            }
+        };
+    }
+    private PropertyMap<CommunityAdminAndManager, GetAllActiveCommunityAdminAndManagerRest> getMapper(){
+        return new PropertyMap<CommunityAdminAndManager, GetAllActiveCommunityAdminAndManagerRest>() {
+            @Override
+            protected void configure() {
+                map().setId(source.getId());
+                map().setName(source.getName());
+                map().setEmail(source.getEmail());
+                map().setCognizantId(source.getCognizantId());
+                map().setRoleType(source.getRoleType());
             }
         };
     }
