@@ -47,6 +47,7 @@ public class CommunityAdminAndManagerController {
      public ResponseEntity<String> deleteCommunityManagerAndAdmin(@PathVariable Long id) throws RecordNotFoundException {
         service.deleteCommunityManagerAndAdmin(id);
         return new ResponseEntity<>("Successfully deleted!", HttpStatus.OK);
+     }
 
     @GetMapping
     public CustomPage<GetAllActiveCommunityAdminAndManagerRest> getAllActiveCommunityAdminAndManager(@PathParam("offset")int offset, @PathParam("size")int size, Pageable pageable) {
