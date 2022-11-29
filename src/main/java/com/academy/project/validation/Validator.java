@@ -7,16 +7,20 @@ import com.academy.project.repository.CommunityAdminAndManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 
 @Component
 public class Validator
 {
     @Autowired
     private CommunityAdminAndManagerRepository repository;
-    private static final String NAME =  "[a-zA-Z0-9]+[a-zA-Z0-9-, .Ññ]+";
+    private static final String NAME =  "[a-zA-Z]+[a-zA-Z-, .Ññ]+";
     private static final String SPECIAL_CHARACTERS = "[-, .Ññ]+[a-zA-Z0-9-, .Ññ]+";
     private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-
+    private static final String PASSWORD =  "[a-zA-Z]+[a-zA-Z0-9]+";
+    private static final String PASSWORD1 =  "[0-9]+[a-zA-Z]+[a-zA-Z0-9]+";
+    private static final String COGNIZANT_ID = "[0-9]+";
     public CommunityAdminAndManager checkIfValidId(Long id) throws RecordNotFoundException {
         return repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
     }
@@ -66,6 +70,10 @@ public class Validator
         if(!email.matches(EMAIL)){
             throw new InvalidInputException("Invalid email format!");
         }
+        Optional<String> existing= repository.findByEmail(email);
+        if(existing.isPresent()){
+            throw new InvalidInputException("Email must be unique");
+        }
     }
     public void checkPasswordIfValid(String password) throws InvalidInputException {
         if(password == null || password.isBlank()){
@@ -74,13 +82,25 @@ public class Validator
         if(password.length() > 100){
             throw new InvalidInputException("Password length should not exceed 100 characters!");
         }
+
+        if(!password.matches(PASSWORD)&& !password.matches(PASSWORD1)){
+            throw new InvalidInputException("Password should not contain invalid characters!");
+        }
+
     }
     public void checkCognizantIdIfValid(String cognizantId) throws InvalidInputException {
         if(cognizantId == null || cognizantId.isBlank()){
             throw new InvalidInputException("CognizantId is required!");
         }
         if(cognizantId.length() > 10){
-            throw new InvalidInputException("CognizantId length should be a maximum of 10 characters!");
+            throw new InvalidInputException("CognizantId length should not exceed of 10 characters!");
+        }
+        if(!cognizantId.matches(COGNIZANT_ID)){
+            throw new InvalidInputException("CognizantId should not contain invalid characters!");
+        }
+        Optional<String> existing= repository.findByCognizantId(cognizantId);
+        if(existing.isPresent()){
+            throw new InvalidInputException("CognizantId must be unique");
         }
     }
     public void checkRoleTypeIfValid(String roleType) throws InvalidInputException {
@@ -88,7 +108,7 @@ public class Validator
             throw new InvalidInputException("Roletype is required!");
         }
         if(roleType.length() > 10){
-            throw new InvalidInputException("Roletype length should be a maximum of 10 characters!");
+            throw new InvalidInputException("Roletype length should not exceed 10 characters!");
         }
         if(!"Admin".equals(roleType) && !"Manager".equals(roleType)){
             throw new InvalidInputException("Invalid roletype given!");
