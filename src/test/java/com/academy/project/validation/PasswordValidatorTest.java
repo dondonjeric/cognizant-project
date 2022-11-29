@@ -18,21 +18,21 @@ public class PasswordValidatorTest {
         Validator validator = new Validator();
         //ACT
         InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
-            validator.checkPasswordIfValid("A while back I needed to count the amount of letters that a piece of text in an email template had to");
+            validator.checkPasswordIfValid("abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456abcdefghijklmnopqrstuvwxyz123456");
         });
         //Assert
-        assertTrue(thrown.getMessage().contains("Password length should be a maximum of 100 characters!"));
+        assertTrue(thrown.getMessage().contains("Password length should not exceed 100 characters!"));
     }
     @Test
     @DisplayName("" +
             "Given a CommunityAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should return true")
-    public void checkIfPasswordIsNUll() throws NullPointerException {
+    public void checkIfPasswordIsNUll() throws InvalidInputException {
         //ARRANGE
         Validator validator = new Validator();
         //ACT
-        NullPointerException thrown = assertThrows(NullPointerException.class, () -> {
+        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
             validator.checkPasswordIfValid(null);
         });
         //Assert
