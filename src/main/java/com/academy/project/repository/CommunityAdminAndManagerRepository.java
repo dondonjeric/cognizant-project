@@ -11,4 +11,5 @@ public interface CommunityAdminAndManagerRepository extends JpaRepository<Commun
 
     Optional<String> findByEmail(String email);
     Optional<String> findByCognizantId(String cognizantId);
+
 }
