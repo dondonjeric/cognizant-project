@@ -43,6 +43,11 @@ public class CommunityAdminAndManagerController {
         service.addCommunityAdminAndManager(manager);
         return new ResponseEntity<>("Successfully registered!", HttpStatus.OK);
     }
+      @DeleteMapping("/{id}")
+     public ResponseEntity<String> deleteCommunityManagerAndAdmin(@PathVariable Long id) throws RecordNotFoundException {
+        service.deleteCommunityManagerAndAdmin(id);
+        return new ResponseEntity<>("Successfully deleted!", HttpStatus.OK);
+
     @GetMapping
     public CustomPage<GetAllActiveCommunityAdminAndManagerRest> getAllActiveCommunityAdminAndManager(@PathParam("offset")int offset, @PathParam("size")int size, Pageable pageable) {
         pageable = PageRequest.of(offset, size);
@@ -55,5 +60,6 @@ public class CommunityAdminAndManagerController {
         Page<CommunityAdminAndManager> manager1 = service.defaultGetAllActiveCommunityAdminAndManager(pageable);
         List<GetAllActiveCommunityAdminAndManagerRest> getAllActive1 = manager1.stream().map(communityAdminAndManager -> modelMapper.map(communityAdminAndManager, GetAllActiveCommunityAdminAndManagerRest.class)).toList();
         return new CustomPage<GetAllActiveCommunityAdminAndManagerRest>(new PageImpl<>(getAllActive1));
+
     }
 }
