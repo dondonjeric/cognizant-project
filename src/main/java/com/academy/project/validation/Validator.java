@@ -1,12 +1,16 @@
 package com.academy.project.validation;
 
+import com.academy.project.exception.IllegalArgumentException;
 import com.academy.project.exception.InvalidInputException;
+import com.academy.project.exception.NumberFormatException;
 import com.academy.project.exception.RecordNotFoundException;
 import com.academy.project.model.CommunityAdminAndManager;
 import com.academy.project.repository.CommunityAdminAndManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import javax.websocket.server.PathParam;
 import java.util.Optional;
 
 
@@ -20,6 +24,8 @@ public class Validator
     private static final String EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
     private static final String PASSWORD =  "[a-zA-Z]+[a-zA-Z0-9]+";
     private static final String PASSWORD1 =  "[0-9]+[a-zA-Z]+[a-zA-Z0-9]+";
+    private static final String PARAMETER = "[0-9]+";
+
 
     public CommunityAdminAndManager checkIfValidId(Long id) throws RecordNotFoundException {
         return repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
@@ -114,4 +120,24 @@ public class Validator
             throw new InvalidInputException("Invalid roletype given!");
         }
     }
+    public void checkIfParameterIsValid(@PathParam("offset")Integer offset, @PathParam("size")Integer size) throws IllegalStateException, IllegalArgumentException, NumberFormatException, RecordNotFoundException {
+        String offsetStr = Integer.toString(offset);
+        String sizeStr = Integer.toString(size);
+//        if(pageable==null){
+//            throw new RecordNotFoundException("No record to display!");
+//        }
+        if(offset==null){
+            return;
+        }
+        if(!offsetStr.matches(PARAMETER)){
+            throw new IllegalStateException("Invalid offset input!");
+        }
+        if(!sizeStr.matches(PARAMETER)){
+            throw new IllegalArgumentException("Invalid size input!");
+        }
+//        if(!sizeStr.matches(PARAMETER)){
+//            throw new NumberFormatException("Invalid size input!");
+//        }
+    }
+
 }

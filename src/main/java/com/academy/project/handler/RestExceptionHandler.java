@@ -1,5 +1,6 @@
 package com.academy.project.handler;
 
+import com.academy.project.exception.IllegalArgumentException;
 import com.academy.project.exception.InvalidInputException;
 import com.academy.project.exception.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -18,5 +19,17 @@ public class RestExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<String> recordNotFoundException(RecordNotFoundException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler
+    public ResponseEntity<String> illegalArgumentException(IllegalArgumentException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler
+    public ResponseEntity<String> IllegalStateException(IllegalStateException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler
+    public ResponseEntity<String> NumberFormatException(NumberFormatException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
