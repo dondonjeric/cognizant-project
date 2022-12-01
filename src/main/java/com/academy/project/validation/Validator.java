@@ -114,4 +114,23 @@ public class Validator
             throw new InvalidInputException("Invalid roletype given!");
         }
     }
+    public void checkFilter(Integer size, Integer offset) throws InvalidInputException {
+        if (size == null || offset == null) {
+            throw new InvalidInputException("Not a Valid Argument");
+        }
+
+        if (size < 0 && offset < 0) {
+            throw new InvalidInputException("Invalid Size and Offset Value");
+        }
+        if(size < 0 ){
+            throw new InvalidInputException("Invalid Size Value");
+        }
+        if (offset < 0){
+            throw new InvalidInputException("Invalid Offset Value");
+        }
+
+        if (offset == 0 & size == 0){
+            throw new InvalidInputException ("No Record Found");
+        }
+    }
 }

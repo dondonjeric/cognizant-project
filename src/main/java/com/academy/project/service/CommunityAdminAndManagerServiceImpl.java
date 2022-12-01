@@ -52,20 +52,12 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
         communityAdminAndManager.setIsactive(false);
         repository.save(communityAdminAndManager);
     }
-    public Page<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Pageable pageable){
-        List<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable).stream().filter(CommunityAdminAndManager::getIsactive).collect(Collectors.toList());
-        return new PageImpl<>(adminAndManagers);
-    }
-
     @Override
-    public Page<CommunityAdminAndManager> defaultGetAllActiveCommunityAdminAndManager(Pageable pageable) {
-        List<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable).stream().filter(CommunityAdminAndManager::getIsactive).collect(Collectors.toList());
-        return new PageImpl<>(adminAndManagers);
+    public List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Integer size, Integer offset) throws InvalidInputException {
+        if(size == null && offset == null){
+            return repository.findAll().stream().filter(CommunityAdminAndManager::getIsactive).toList();
+        }
+        validator.checkFilter(size,offset);
+        return repository.getAllActiveCommunityAdminAndManager(size, offset);
     }
-//    @Override
-//    public Page<CommunityAdminAndManager> defaultGetAllActiveCommunityAdminAndManager(Pageable pageable){
-//        List<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable).stream().filter(CommunityAdminAndManager::getIsactive).collect(Collectors.toList());
-//        return new PageImpl<>(adminAndManagers);
-//    }
-
 }
