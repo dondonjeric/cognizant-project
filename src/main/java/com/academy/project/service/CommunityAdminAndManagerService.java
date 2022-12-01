@@ -11,11 +11,11 @@ import java.util.List;
 
 public interface CommunityAdminAndManagerService {
 
-    CommunityAdminAndManager addCommunityAdminAndManager(CommunityAdminAndManager CommunityAdminAndManager) throws InvalidInputException, RecordNotFoundException;
-    CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager CommunityAdminAndManager) throws RecordNotFoundException, InvalidInputException;
-    Page<CommunityAdminAndManager> getAllAdminAndManager(Pageable pageable);
+    CommunityAdminAndManager addCommunityAdminAndManager(CommunityAdminAndManager CommunityAdminAndManager);
+    CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager CommunityAdminAndManager);
     void deleteCommunityManagerAndAdmin(Long id ) throws RecordNotFoundException;
-    List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Integer size, Integer offset) throws InvalidInputException;
+    List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Integer size, Integer offset);
+    Long count();
 
 
 }

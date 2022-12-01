@@ -1,6 +1,7 @@
 package com.academy.project;
 import com.academy.project.exception.InvalidInputException;
 import com.academy.project.exception.RecordNotFoundException;
+import com.academy.project.helper.CustomPage;
 import com.academy.project.model.CommunityAdminAndManager;
 import com.academy.project.repository.CommunityAdminAndManagerRepository;
 import com.academy.project.service.CommunityAdminAndManagerServiceImpl;
@@ -11,7 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,21 +24,19 @@ import java.util.List;
 import java.util.Optional;
 
 
-import static org.mockito.ArgumentMatchers.any;
-
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class CommunityAdminAndManagerServiceImplTest {
     @Mock(name = "repository")
-    private CommunityAdminAndManagerRepository communityManagerRepository;
+    private CommunityAdminAndManagerRepository repository;
 
     @Mock(name = "validator")
     private Validator validator;
     @InjectMocks
-    private CommunityAdminAndManagerServiceImpl communityAdminAndManagerService;
+    private CommunityAdminAndManagerServiceImpl service;
 
     private CommunityAdminAndManager communityAdminAndManager1 = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
     private CommunityAdminAndManager communityAdminAndManager2 = new CommunityAdminAndManager(1L,"Marvin Jerome Shawn", "veripro@gmail.com", "veripro", "admin1", "admin", true);
@@ -54,11 +57,11 @@ public class CommunityAdminAndManagerServiceImplTest {
             "Then result should return communityAdminAndManager4")
     public void addComManager() throws InvalidInputException, RecordNotFoundException {
         //arrange
-        when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(communityAdminAndManager4);
+        when(repository.save(any(CommunityAdminAndManager.class))).thenReturn(communityAdminAndManager4);
         //act
-        CommunityAdminAndManager result = communityAdminAndManagerService.addCommunityAdminAndManager(communityAdminAndManager4);
+        CommunityAdminAndManager result = service.addCommunityAdminAndManager(communityAdminAndManager4);
         //assert
-        verify(communityManagerRepository).save(any(CommunityAdminAndManager.class));
+        verify(repository).save(any(CommunityAdminAndManager.class));
         assertEquals(communityAdminAndManager4, communityAdminAndManager4);
     }
 
@@ -74,12 +77,12 @@ public class CommunityAdminAndManagerServiceImplTest {
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         expected.setName("jeric");
-        when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
-        when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
+        when(repository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
+        when(repository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
         //ACT
-        CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1);
+        CommunityAdminAndManager result = service.updateCommunityManagerAndAdmin(communityAdminAndManager1);
         //ASSERT
-        verify(communityManagerRepository).save(any(CommunityAdminAndManager.class));
+        verify(repository).save(any(CommunityAdminAndManager.class));
         assertEquals(expected, result);
     }
     @Test
@@ -90,12 +93,12 @@ public class CommunityAdminAndManagerServiceImplTest {
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         expected.setName("DoÑ-d.ñ,");
-        when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
-        when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
+        when(repository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
+        when(repository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
         //ACT
-        CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1);
+        CommunityAdminAndManager result = service.updateCommunityManagerAndAdmin(communityAdminAndManager1);
         //ASSERT
-        verify(communityManagerRepository).save(any(CommunityAdminAndManager.class));
+        verify(repository).save(any(CommunityAdminAndManager.class));
         assertEquals(expected, result);
     }
     @Test
@@ -106,12 +109,12 @@ public class CommunityAdminAndManagerServiceImplTest {
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         expected.setName("");
-        when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
-        when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
+        when(repository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
+        when(repository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
         //ACT
-        CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1);
+        CommunityAdminAndManager result = service.updateCommunityManagerAndAdmin(communityAdminAndManager1);
         //ASSERT
-        verify(communityManagerRepository).save(any(CommunityAdminAndManager.class));
+        verify(repository).save(any(CommunityAdminAndManager.class));
         assertEquals(expected, result);
     }
     @Test
@@ -122,12 +125,31 @@ public class CommunityAdminAndManagerServiceImplTest {
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L,"askdjasladaksdlaaksdalaskdalaskdalaksaldkasaldkasaldkasaldkasladaklsfnakjdfbakjsbaskjbckajbsckjabsckajb", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         expected.setName("");
-        when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
-        when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
+        when(repository.findById(anyLong())).thenReturn(Optional.of(communityAdminAndManager1));
+        when(repository.save(any(CommunityAdminAndManager.class))).thenReturn(expected);
         //ACT
-        CommunityAdminAndManager result = communityAdminAndManagerService.updateCommunityManagerAndAdmin(communityAdminAndManager1);
+        CommunityAdminAndManager result = service.updateCommunityManagerAndAdmin(communityAdminAndManager1);
         //ASSERT
-        verify(communityManagerRepository).save(any(CommunityAdminAndManager.class));
+        verify(repository).save(any(CommunityAdminAndManager.class));
         assertEquals(expected, result);
+    }
+    @Test
+    @DisplayName("" +
+            "Given CommunityAdminAndManager with the setup above " +
+            "\nWhen getAllAdminAndCommunityManager_PositiveCase is executed ")
+    public void getAllAdminAndCommunityManager_PositiveCase() throws RecordNotFoundException, InvalidInputException {
+//        //ARRANGE
+//        when(repository.findAll(PageRequest.of(0, 20))).thenReturn(new PageImpl<>(allCommunityAdminAndManager));
+//        //ACT
+//        Page<CommunityAdminAndManager> result = service.getAllActiveCommunityAdminAndManager(PageRequest.of(0,20));
+//        //ASSERT
+
+
+//        when(repository.save(any())).thenReturn((CommunityAdminAndManager) allCommunityAdminAndManager);
+//        //act
+//        List<CommunityAdminAndManager> result = service.getAllActiveCommunityAdminAndManager(allCommunityAdminAndManager);
+//        //assert
+//        verify(repository).getAllActiveCommunityAdminAndManager(any(CommunityAdminAndManager.class));
+//        //assertEquals(allCommunityAdminAndManager, result.getContent());
     }
 }
