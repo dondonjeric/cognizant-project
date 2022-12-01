@@ -11,7 +11,7 @@ public class CognizantIdValidatorTest {
     @DisplayName("Given a CommunityAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should throw InvalidInputException.class")
-    public void checkIfCognizantIdIsNull() throws NullPointerException {
+    public void checkIfCognizantIdIsNull() {
         //Arrange
         Validator validator = new Validator();
         //Act
@@ -25,7 +25,7 @@ public class CognizantIdValidatorTest {
     @DisplayName("Given a CommunityAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should throw InvalidInputException.class")
-    public void checkIfCognizantIdIsExceedIn10Characters() throws InvalidInputException {
+    public void checkIfCognizantIdIsExceedIn10Characters() {
         //Arrange
         Validator validator = new Validator();
         //Act

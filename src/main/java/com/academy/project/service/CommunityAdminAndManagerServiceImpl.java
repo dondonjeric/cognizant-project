@@ -35,13 +35,13 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     private PeopleRepository peopleRepository;
 
     @Override
-    public CommunityAdminAndManager addCommunityAdminAndManager(CommunityAdminAndManager comManager) throws InvalidInputException, RecordNotFoundException {
+    public CommunityAdminAndManager addCommunityAdminAndManager(CommunityAdminAndManager comManager) {
         validator.checkCreateIfValid(comManager);
         return repository.save(comManager);
     }
 
     @Override
-    public CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager updateComManager) throws InvalidInputException, RecordNotFoundException {
+    public CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager updateComManager) {
         validator.checkUpdateIfValid(updateComManager);
         CommunityAdminAndManager manager = repository.findById(updateComManager.getId()).get();
         manager.setName(updateComManager.getName());
@@ -55,28 +55,38 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     }
 
     @Override
-    public void deleteCommunityManagerAndAdmin(Long id) throws RecordNotFoundException, InvalidDeleteException {
+    public void deleteCommunityManagerAndAdmin(Long id) {
         CommunityAdminAndManager communityAdminAndManager = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Record not found"));
         if (!communityAdminAndManager.getIsactive()) {
             throw new RecordNotFoundException("Record not found");
         }
-        //  List<Community> communityList = communityRepository.findAll().stream().filter(community -> community.getMgrid() == id && community.getIsactive() == true).toList();
-        List<Community> communityList = communityRepository.findByMgridAndIsactive(id, true);
-        if (communityList.size() > 0)
-            throw new InvalidDeleteException("Can't delete this record, Please update the community table first before deleting.");
-        //List<People> peopleList = peopleRepository.findAll().stream().filter(people -> people.getCommunityadminandmanagerid() == id && people.getIsactive() == true).toList();
-        List<People> peopleList = peopleRepository.findByCommunityadminandmanageridAndIsactive(id, true);
-        if (peopleList.size() > 0)
-            throw new InvalidDeleteException("Can't delete this record, Please update the people table first before deleting.");
-
         communityAdminAndManager.setIsactive(false);
         repository.save(communityAdminAndManager);
-
     }
-
-
+//    delete with validation
+//    @Override
+//    public void deleteCommunityManagerAndAdmin(Long id) throws RecordNotFoundException, InvalidDeleteException {
+//        CommunityAdminAndManager communityAdminAndManager = repository.findById(id)
+//                .orElseThrow(() -> new RecordNotFoundException("Record not found"));
+//        if (!communityAdminAndManager.getIsactive()) {
+//            throw new RecordNotFoundException("Record not found");
+//        }
+//        //  List<Community> communityList = communityRepository.findAll().stream().filter(community -> community.getMgrid() == id && community.getIsactive() == true).toList();
+//        List<Community> communityList = communityRepository.findByMgridAndIsactive(id, true);
+//        if (communityList.size() > 0)
+//            throw new InvalidDeleteException("Can't delete this record, Please update the community table first before deleting.");
+//        //List<People> peopleList = peopleRepository.findAll().stream().filter(people -> people.getCommunityadminandmanagerid() == id && people.getIsactive() == true).toList();
+//        List<People> peopleList = peopleRepository.findByCommunityadminandmanageridAndIsactive(id, true);
+//        if (peopleList.size() > 0)
+//            throw new InvalidDeleteException("Can't delete this record, Please update the people table first before deleting.");
 //
+//        communityAdminAndManager.setIsactive(false);
+//        repository.save(communityAdminAndManager);
+//    }
+
+
+//    delete with update
 //    @Override
 //    public void deleteCommunityManagerAndAdmin(Long id) throws RecordNotFoundException {
 //        CommunityAdminAndManager communityAdminAndManager = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));

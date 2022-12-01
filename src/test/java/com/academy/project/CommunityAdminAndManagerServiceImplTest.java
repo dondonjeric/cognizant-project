@@ -67,7 +67,7 @@ public class CommunityAdminAndManagerServiceImplTest {
             "Given CommunityManager with the setup above " +
             "When addComManager(CommunityManager.class) is executed " +
             "Then result should return communityAdminAndManager4")
-    public void addComManager() throws InvalidInputException, RecordNotFoundException {
+    public void addComManager(){
         //arrange
         when(communityManagerRepository.save(any(CommunityAdminAndManager.class))).thenReturn(communityAdminAndManager4);
         //act
@@ -84,7 +84,7 @@ public class CommunityAdminAndManagerServiceImplTest {
             "Given CommunityAdminAndManager with the setup above " +
             "\nWhen updateCommunityAdminAndManager(CommunityAdminAndManager, Long) is executed " +
             "\nThen result should return updated jeric")
-    public void updateCommunityAdminAndManager() throws RecordNotFoundException, InvalidInputException {
+    public void updateCommunityAdminAndManager() {
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L, "Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         expected.setName("jeric");
@@ -101,7 +101,7 @@ public class CommunityAdminAndManagerServiceImplTest {
     @DisplayName("" +
             "Given CommunityAdminAndManager with the setup above " +
             "\nupdateCommunityAdminAndManagerWithAcceptedSpecialCharacters is executed ")
-    public void updateCommunityAdminAndManagerWithAcceptedSpecialCharacters() throws RecordNotFoundException, InvalidInputException {
+    public void updateCommunityAdminAndManagerWithAcceptedSpecialCharacters(){
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L, "Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         expected.setName("DoÑ-d.ñ,");
@@ -118,7 +118,7 @@ public class CommunityAdminAndManagerServiceImplTest {
     @DisplayName("" +
             "Given CommunityAdminAndManager with the setup above " +
             "\nWhen updateCommunityAdminAndManagerWithNoInput is executed ")
-    public void updateCommunityAdminAndManagerWithNoInput() throws RecordNotFoundException, InvalidInputException {
+    public void updateCommunityAdminAndManagerWithNoInput() {
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L, "Dondon Vic Ali", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         expected.setName("");
@@ -135,7 +135,7 @@ public class CommunityAdminAndManagerServiceImplTest {
     @DisplayName("" +
             "Given CommunityAdminAndManager with the setup above " +
             "\nWhen updateCommunityAdminAndManagerExceeding100Characters is executed ")
-    public void updateCommunityAdminAndManagerExceeding100Characters() throws RecordNotFoundException, InvalidInputException {
+    public void updateCommunityAdminAndManagerExceeding100Characters(){
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L, "askdjasladaksdlaaksdalaskdalaskdalaksaldkasaldkasaldkasaldkasladaklsfnakjdfbakjsbaskjbckajbsckjabsckajb", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         expected.setName("");
@@ -152,7 +152,7 @@ public class CommunityAdminAndManagerServiceImplTest {
     @DisplayName("" +
             "Given CommunityAdminAndManager with the setup above " +
             "\nWhen deleteCommunityAdminAndManager is false ")
-    public void deleteCommunityAdminAndManagerIsSoftDeleted() throws RecordNotFoundException, InvalidInputException {
+    public void deleteCommunityAdminAndManagerIsSoftDeleted(){
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L, "asb", "veripro@gmail.com", "veripro", "admin1", "admin", false);
         //ACT
@@ -168,7 +168,7 @@ public class CommunityAdminAndManagerServiceImplTest {
     @DisplayName("" +
             "Given CommunityAdminAndManager with the setup above " +
             "\nWhen deleteCommunityAdminAndManager Doesn't exist ")
-    public void deleteCommunityAdminAndManagerDoesNotExist() throws RecordNotFoundException, InvalidInputException {
+    public void deleteCommunityAdminAndManagerDoesNotExist(){
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L, "asb", "veripro@gmail.com", "veripro", "admin1", "admin", false);
         //ACT
@@ -182,18 +182,32 @@ public class CommunityAdminAndManagerServiceImplTest {
     @DisplayName("" +
             "Given CommunityAdminAndManager with the setup above " +
             "\nWhen deleteCommunityAdminAndManager Doesn't exist ")
-    public void deleteCommunityAdminAndManagerWithDependencyOnCommunityTable() throws InvalidDeleteException {
+    public void deleteCommunityAdminAndManager(){
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L, "asb", "veripro@gmail.com", "veripro", "admin1", "admin", true);
-        Community community = new Community(1L, "don", "icon", 1L, "ahhs", true);
         //ACT
         when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(expected));
-        when(communityRepository.findByMgridAndIsactive(1L,true)).thenReturn( List.of(community));
+        communityAdminAndManagerService.deleteCommunityManagerAndAdmin(1L);
         //ASSERT
-        assertThrows(InvalidDeleteException.class, () -> {
-            communityAdminAndManagerService.deleteCommunityManagerAndAdmin(1L);
-        });
+        assertFalse(expected.getIsactive());
     }
+
+//    @Test
+//    @DisplayName("" +
+//            "Given CommunityAdminAndManager with the setup above " +
+//            "\nWhen deleteCommunityAdminAndManager Doesn't exist ")
+//    public void deleteCommunityAdminAndManagerWithDependencyOnCommunityTable() throws InvalidDeleteException {
+//        //ARRANGE
+//        CommunityAdminAndManager expected = new CommunityAdminAndManager(1L, "asb", "veripro@gmail.com", "veripro", "admin1", "admin", true);
+//        Community community = new Community(1L, "don", "icon", 1L, "ahhs", true);
+//        //ACT
+//        when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(expected));
+//        when(communityRepository.findByMgridAndIsactive(1L,true)).thenReturn( List.of(community));
+//        //ASSERT
+//        assertThrows(InvalidDeleteException.class, () -> {
+//            communityAdminAndManagerService.deleteCommunityManagerAndAdmin(1L);
+//        });
+//    }
 
 //    @Test
 //    @DisplayName("" +

@@ -13,7 +13,7 @@ public class PasswordValidatorTest {
             "Given a CommunityAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should return true")
-    public void checkIfPasswordIsExceedIn100Characters() throws InvalidInputException, RecordNotFoundException {
+    public void checkIfPasswordIsExceedIn100Characters(){
         //ARRANGE
         Validator validator = new Validator();
         //ACT
@@ -28,7 +28,7 @@ public class PasswordValidatorTest {
             "Given a CommunityAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should return true")
-    public void checkIfPasswordIsNUll() throws NullPointerException {
+    public void checkIfPasswordIsNUll(){
         //ARRANGE
         Validator validator = new Validator();
         //ACT
