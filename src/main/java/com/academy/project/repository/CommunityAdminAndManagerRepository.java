@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface CommunityAdminAndManagerRepository extends JpaRepository<CommunityAdminAndManager, Long> {
 
 
-    Optional<String> findByEmail(String email);
-    Optional<String> findByCognizantId(String cognizantId);
+    Optional<CommunityAdminAndManager> findByEmailAndIsactive(String email,Boolean isactive);
+    Optional<CommunityAdminAndManager> findByCognizantIdAndIsactive(String cognizantId,Boolean isactive);
 
 }

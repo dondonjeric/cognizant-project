@@ -70,7 +70,7 @@ public class Validator
         if(!email.matches(EMAIL)){
             throw new InvalidInputException("Invalid email format!");
         }
-        Optional<String> existing= repository.findByEmail(email);
+        Optional<CommunityAdminAndManager> existing= repository.findByEmailAndIsactive(email,true);
         if(existing.isPresent()){
             throw new InvalidInputException("Email must be unique");
         }
@@ -98,7 +98,7 @@ public class Validator
         if(!cognizantId.matches(COGNIZANT_ID)){
             throw new InvalidInputException("CognizantId should not contain invalid characters!");
         }
-        Optional<String> existing= repository.findByCognizantId(cognizantId);
+        Optional<CommunityAdminAndManager> existing= repository.findByCognizantIdAndIsactive(cognizantId,true);
         if(existing.isPresent()){
             throw new InvalidInputException("CognizantId must be unique");
         }

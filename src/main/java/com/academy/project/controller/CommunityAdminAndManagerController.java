@@ -3,6 +3,7 @@ package com.academy.project.controller;
 import com.academy.project.dto.CreateCommunityAdminAndManagerRest;
 import com.academy.project.dto.GetAllActiveCommunityAdminAndManagerRest;
 import com.academy.project.dto.UpdateCommunityAdminAndManagerRest;
+import com.academy.project.exception.InvalidDeleteException;
 import com.academy.project.exception.InvalidInputException;
 import com.academy.project.exception.RecordNotFoundException;
 import com.academy.project.helper.CustomPage;
@@ -44,7 +45,7 @@ public class CommunityAdminAndManagerController {
         return new ResponseEntity<>("Successfully registered!", HttpStatus.OK);
     }
       @DeleteMapping("/{id}")
-     public ResponseEntity<String> deleteCommunityManagerAndAdmin(@PathVariable Long id) throws RecordNotFoundException {
+     public ResponseEntity<String> deleteCommunityManagerAndAdmin(@PathVariable Long id) throws RecordNotFoundException, InvalidDeleteException {
           service.deleteCommunityManagerAndAdmin(id);
           return new ResponseEntity<>("Successfully deleted!", HttpStatus.OK);
       }

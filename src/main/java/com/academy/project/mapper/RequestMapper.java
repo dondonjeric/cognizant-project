@@ -43,7 +43,6 @@ public class RequestMapper extends ModelMapper {
         return new PropertyMap<CommunityAdminAndManager, GetAllActiveCommunityAdminAndManagerRest>() {
             @Override
             protected void configure() {
-                map().setId(source.getId());
                 map().setName(source.getName());
                 map().setEmail(source.getEmail());
                 map().setCognizantId(source.getCognizantId());

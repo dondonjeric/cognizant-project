@@ -1,6 +1,7 @@
 package com.academy.project.service;
 
 
+import com.academy.project.exception.InvalidDeleteException;
 import com.academy.project.exception.InvalidInputException;
 import com.academy.project.exception.RecordNotFoundException;
 import com.academy.project.model.CommunityAdminAndManager;
@@ -13,7 +14,7 @@ public interface CommunityAdminAndManagerService {
     CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager CommunityAdminAndManager) throws RecordNotFoundException, InvalidInputException;
 
     Page<CommunityAdminAndManager> getAllAdminAndManager(Pageable pageable);
-    void deleteCommunityManagerAndAdmin(Long id ) throws RecordNotFoundException;
+    void deleteCommunityManagerAndAdmin(Long id ) throws RecordNotFoundException, InvalidDeleteException;
 
     Page<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Pageable pageable);
     Page<CommunityAdminAndManager> defaultGetAllActiveCommunityAdminAndManager(Pageable pageable);
