@@ -1,22 +1,14 @@
 package com.academy.project.service;
 
-import com.academy.project.dto.GetAllActiveCommunityAdminAndManagerRest;
-import com.academy.project.exception.IllegalArgumentException;
 import com.academy.project.exception.InvalidInputException;
 import com.academy.project.exception.RecordNotFoundException;
-import com.academy.project.helper.SamplePageRequest;
 import com.academy.project.model.CommunityAdminAndManager;
 import com.academy.project.repository.CommunityAdminAndManagerRepository;
 import com.academy.project.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndManagerService {
@@ -42,19 +34,11 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     }
 
     @Override
-    public List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(int offset, int limit) throws IllegalArgumentException {
-        //return communityAdminAndManager.createQuery("SELECT * from communityadminandmanager WHERE is_active=true", GetAllActiveCommunityAdminAndManagerRest.class).setMaxResults(size).getResultList();
-
-        Pageable pageable = new SamplePageRequest(offset, limit, Sort.unsorted());
-        return repository.findAll(pageable).getContent();
-        //        Pageable pageable = PageRequest.of(offset, size, Sort.DEFAULT_DIRECTION);
-//        default List<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable).stream().filter(CommunityAdminAndManager::getIsactive).collect(Collectors.toList());
-//        return new PageImpl<>(adminAndManagers);
+    public List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Integer size, Integer offset) throws InvalidInputException {
+        if(size == null && offset == null){
+            return repository.findAll().stream().filter(CommunityAdminAndManager::getIsactive).toList();
+        }
+        validator.checkFilter(size,offset);
+        return repository.getAllActiveCommunityAdminAndManager(size, offset);
     }
-
-//    @Override
-//    public List<CommunityAdminAndManager> getAll() {
-//        Pageable pageable = new SamplePageRequest(0, 1, null);
-//        return new;
-//    }
 }

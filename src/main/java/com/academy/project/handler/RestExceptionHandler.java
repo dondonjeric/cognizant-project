@@ -20,16 +20,5 @@ public class RestExceptionHandler {
     public ResponseEntity<String> recordNotFoundException(RecordNotFoundException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
-    @ExceptionHandler
-    public ResponseEntity<String> illegalArgumentException(IllegalArgumentException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-    @ExceptionHandler
-    public ResponseEntity<String> IllegalStateException(IllegalStateException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-    @ExceptionHandler
-    public ResponseEntity<String> NumberFormatException(NumberFormatException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+
 }

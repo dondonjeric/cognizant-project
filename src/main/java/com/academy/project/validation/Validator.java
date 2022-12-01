@@ -120,24 +120,23 @@ public class Validator
             throw new InvalidInputException("Invalid roletype given!");
         }
     }
-    public void checkIfParameterIsValid(@PathParam("offset")Integer offset, @PathParam("size")Integer size) throws IllegalStateException, IllegalArgumentException, NumberFormatException, RecordNotFoundException {
-        String offsetStr = Integer.toString(offset);
-        String sizeStr = Integer.toString(size);
-//        if(pageable==null){
-//            throw new RecordNotFoundException("No record to display!");
-//        }
-        if(offset==null){
-            return;
+    public void checkFilter(Integer size, Integer offset) throws InvalidInputException {
+        if (size == null || offset == null) {
+            throw new InvalidInputException("Not a Valid Argument");
         }
-        if(!offsetStr.matches(PARAMETER)){
-            throw new IllegalStateException("Invalid offset input!");
-        }
-        if(!sizeStr.matches(PARAMETER)){
-            throw new IllegalArgumentException("Invalid size input!");
-        }
-//        if(!sizeStr.matches(PARAMETER)){
-//            throw new NumberFormatException("Invalid size input!");
-//        }
-    }
 
+        if (size < 0 && offset < 0) {
+            throw new InvalidInputException("Invalid Size and Offset Value");
+        }
+        if(size < 0 ){
+            throw new InvalidInputException("Invalid Size Value");
+        }
+        if (offset < 0){
+            throw new InvalidInputException("Invalid Offset Value");
+        }
+
+        if (offset == 0 & size == 0){
+            throw new InvalidInputException ("No Record Found");
+        }
+    }
 }

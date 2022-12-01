@@ -3,6 +3,8 @@ package com.academy.project.helper;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -10,18 +12,11 @@ import java.util.List;
 public class CustomPage<T> {
     List<T> content;
 
-    CustomPageable pageable;
-    public CustomPage(Page<T>page){
-        this.content = page.getContent();
-        this.pageable = new CustomPageable(page.getTotalElements());
-
+    String totalRecords;
+    public CustomPage(Slice<T> slice, HttpStatus status){
+        this.content = slice.getContent();
+        this.totalRecords = (""+ slice.getNumberOfElements());
     }
 }
 
-@Data
-class CustomPageable{
-    long totalRecords;
-    public CustomPageable(long totalRecords){
-        this.totalRecords = totalRecords;
-    }
-}
+

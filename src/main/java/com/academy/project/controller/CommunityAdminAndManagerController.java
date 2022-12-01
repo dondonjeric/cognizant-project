@@ -7,16 +7,12 @@ import com.academy.project.exception.IllegalArgumentException;
 import com.academy.project.exception.InvalidInputException;
 import com.academy.project.exception.RecordNotFoundException;
 import com.academy.project.helper.CustomPage;
-import com.academy.project.helper.SamplePageRequest;
 import com.academy.project.model.CommunityAdminAndManager;
 import com.academy.project.service.CommunityAdminAndManagerService;
 import com.academy.project.validation.Validator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,12 +47,12 @@ public class CommunityAdminAndManagerController {
     }
 
     @GetMapping
-    public CustomPage<GetAllActiveCommunityAdminAndManagerRest> getAllActiveCommunityAdminAndManager(@PathParam("offset") Integer offset, @PathParam("size")Integer size) throws IllegalArgumentException {
-        List<CommunityAdminAndManager> manager = service.getAllActiveCommunityAdminAndManager(offset, size);
-        List<GetAllActiveCommunityAdminAndManagerRest> getAllActive = manager.stream().map(communityAdminAndManager -> modelMapper.map(communityAdminAndManager, GetAllActiveCommunityAdminAndManagerRest.class)).toList();
-//        return new CustomPage<>(new PageImpl<>(service.getAllActiveCommunityAdminAndManager(offset, size)));
-        //        Pageable pageable = new SamplePageRequest(offset, limit, Sort.unsorted())
-         return new CustomPage<GetAllActiveCommunityAdminAndManagerRest>(new PageImpl<>(getAllActive));
+    public CustomPage<GetAllActiveCommunityAdminAndManagerRest> getAllActiveCommunityAdminAndManager(@PathParam("size") Integer size, @PathParam("offset")Integer offset) throws InvalidInputException {
+        List<CommunityAdminAndManager> manager = service.getAllActiveCommunityAdminAndManager(size, offset);
+        List<GetAllActiveCommunityAdminAndManagerRest> getAllActive = manager.stream()
+                .map(communityAdminAndManager -> modelMapper
+                .map(communityAdminAndManager, GetAllActiveCommunityAdminAndManagerRest.class)).toList();
+         return new CustomPage<GetAllActiveCommunityAdminAndManagerRest>(new PageImpl<>(getAllActive), HttpStatus.OK);
 
     }
 

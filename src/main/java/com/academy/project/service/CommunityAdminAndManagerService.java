@@ -15,9 +15,6 @@ public interface CommunityAdminAndManagerService {
 
     CommunityAdminAndManager addCommunityAdminAndManager(CommunityAdminAndManager CommunityAdminAndManager) throws InvalidInputException, RecordNotFoundException;
     CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager CommunityAdminAndManager) throws RecordNotFoundException, InvalidInputException;
-    List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(int offset, int limit) throws IllegalArgumentException;
-
-//    @Query(value = "SELECT * FROM communityadminandmanager",nativeQuery = true)
-//    List<CommunityAdminAndManager> getAll();
+    List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Integer size, Integer offset) throws InvalidInputException;
 
 }
