@@ -11,7 +11,7 @@ public class RoleTypeValidatorTest {
     @DisplayName("Given a CommunitAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should throw InvalidInputException.class")
-    public void checkIfRoleTypeIsNull() throws NullPointerException {
+    public void checkIfRoleTypeIsNull() {
         //Arrange
         Validator validator = new Validator();
         //Act
@@ -25,7 +25,7 @@ public class RoleTypeValidatorTest {
     @DisplayName("Given a CommunitAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should throw InvalidInputException.class")
-    public void checkIfRoleTypeIsExceedIn10Characters() throws InvalidInputException {
+    public void checkIfRoleTypeIsExceedIn10Characters() {
         //Arrange
         Validator validator = new Validator();
         //Act
@@ -39,7 +39,7 @@ public class RoleTypeValidatorTest {
     @DisplayName("Given a CommunitAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should throw InvalidInputException.class")
-    public void checkIfRoleTypeIsInvalidFormat() throws InvalidInputException {
+    public void checkIfRoleTypeIsInvalidFormat() {
         //Arrange
         Validator validator = new Validator();
         //Act

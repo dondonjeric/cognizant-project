@@ -7,6 +7,7 @@ import com.academy.project.exception.InvalidInputException;
 import com.academy.project.model.CommunityAdminAndManager;
 import com.academy.project.service.CommunityAdminAndManagerService;
 import com.academy.project.validation.Validator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,8 +21,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
+import java.io.UnsupportedEncodingException;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -671,7 +676,13 @@ public class CommunityAdminAndManagerControllerTest {
                 .andReturn();
 
     }
-
+    @Test
+    public void testDeleteCommunityAndAdminManager() throws Exception {
+       doNothing().when(communityAdminAndManagerService).deleteCommunityManagerAndAdmin(1L);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/community/manager/{id}",1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
 
 
