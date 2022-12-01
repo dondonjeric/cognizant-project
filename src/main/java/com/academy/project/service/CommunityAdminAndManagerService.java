@@ -9,7 +9,7 @@ public interface CommunityAdminAndManagerService {
 
     CommunityAdminAndManager addCommunityAdminAndManager(CommunityAdminAndManager CommunityAdminAndManager);
     CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager CommunityAdminAndManager);
-    void deleteCommunityManagerAndAdmin(Long id ) throws RecordNotFoundException;
+    void deleteCommunityManagerAndAdmin(Long id );
     List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Integer size, Integer offset);
     Long count();
 }
