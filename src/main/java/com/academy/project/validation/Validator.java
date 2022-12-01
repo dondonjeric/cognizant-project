@@ -118,19 +118,14 @@ public class Validator
         if (size == null || offset == null) {
             throw new InvalidInputException("Not a Valid Argument");
         }
-
         if (size < 0 && offset < 0) {
             throw new InvalidInputException("Invalid Size and Offset Value");
         }
-        if(size < 0 ){
+        if(size < 1){
             throw new InvalidInputException("Invalid Size Value");
         }
         if (offset < 0){
             throw new InvalidInputException("Invalid Offset Value");
-        }
-
-        if (offset == 0 & size == 0){
-            throw new InvalidInputException ("No Record Found");
         }
     }
 }

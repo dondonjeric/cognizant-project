@@ -55,7 +55,7 @@ public class CommunityAdminAndManagerController {
         List<GetAllActiveCommunityAdminAndManagerRest> getAllActive = manager.stream()
                 .map(communityAdminAndManager -> modelMapper
                         .map(communityAdminAndManager, GetAllActiveCommunityAdminAndManagerRest.class)).toList();
-        return new CustomPage<GetAllActiveCommunityAdminAndManagerRest>(new PageImpl<>(getAllActive), HttpStatus.OK);
+        return new CustomPage<GetAllActiveCommunityAdminAndManagerRest>(new PageImpl<>(getAllActive), HttpStatus.OK, service.count());
 
     }
 }

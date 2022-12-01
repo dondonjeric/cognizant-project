@@ -32,19 +32,14 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     }
 
     @Override
-    public CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager updateComManager) throws InvalidInputException, RecordNotFoundException {
+    public CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager updateComManager){
         validator.checkUpdateIfValid(updateComManager);
         CommunityAdminAndManager manager = repository.findById(updateComManager.getId()).get();
         manager.setName(updateComManager.getName());
         return repository.save(manager);
     }
     @Override
-    public Page<CommunityAdminAndManager> getAllAdminAndManager(Pageable pageable) {
-        Page<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable);
-        return adminAndManagers;
-    }
-    @Override
-    public void deleteCommunityManagerAndAdmin(Long id) throws RecordNotFoundException {
+    public void deleteCommunityManagerAndAdmin(Long id) {
         CommunityAdminAndManager communityAdminAndManager = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
         if (!communityAdminAndManager.getIsactive()) {
             throw new RecordNotFoundException("Record not found!");
@@ -53,11 +48,16 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
         repository.save(communityAdminAndManager);
     }
     @Override
-    public List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Integer size, Integer offset) throws InvalidInputException {
+    public List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Integer size, Integer offset){
         if(size == null && offset == null){
-            return repository.findAll().stream().filter(CommunityAdminAndManager::getIsactive).toList();
+            return repository.getAllIsActive();
         }
         validator.checkFilter(size,offset);
         return repository.getAllActiveCommunityAdminAndManager(size, offset);
+    }
+
+    @Override
+    public Long count() {
+        return repository.counts();
     }
 }
