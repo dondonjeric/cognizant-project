@@ -49,8 +49,6 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     }
 
     @Override
-
-    @Override
     public void deleteCommunityManagerAndAdmin(Long id) {
         CommunityAdminAndManager communityAdminAndManager = repository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Record not found"));
