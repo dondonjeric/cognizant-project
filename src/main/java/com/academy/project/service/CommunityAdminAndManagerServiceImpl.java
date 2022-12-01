@@ -41,7 +41,7 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     }
 
     @Override
-    public CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager updateComManager) {
+    public CommunityAdminAndManager updateCommunityManagerAndAdmin(CommunityAdminAndManager updateComManager){
         validator.checkUpdateIfValid(updateComManager);
         CommunityAdminAndManager manager = repository.findById(updateComManager.getId()).get();
         manager.setName(updateComManager.getName());
@@ -49,10 +49,6 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
     }
 
     @Override
-    public Page<CommunityAdminAndManager> getAllAdminAndManager(Pageable pageable) {
-        Page<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable);
-        return adminAndManagers;
-    }
 
     @Override
     public void deleteCommunityManagerAndAdmin(Long id) {
@@ -108,21 +104,17 @@ public class CommunityAdminAndManagerServiceImpl implements CommunityAdminAndMan
 //        communityRepository.saveAll(communityList);
 //    }
 
-
-    public Page<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Pageable pageable) {
-        List<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable).stream().filter(CommunityAdminAndManager::getIsactive).collect(Collectors.toList());
-        return new PageImpl<>(adminAndManagers);
+    @Override
+    public List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Integer size, Integer offset){
+        if(size == null && offset == null){
+            return repository.getAllIsActive();
+        }
+        validator.checkFilter(size,offset);
+        return repository.getAllActiveCommunityAdminAndManager(size, offset);
     }
 
     @Override
-    public Page<CommunityAdminAndManager> defaultGetAllActiveCommunityAdminAndManager(Pageable pageable) {
-        List<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable).stream().filter(CommunityAdminAndManager::getIsactive).collect(Collectors.toList());
-        return new PageImpl<>(adminAndManagers);
+    public Long count() {
+        return repository.counts();
     }
-//    @Override
-//    public Page<CommunityAdminAndManager> defaultGetAllActiveCommunityAdminAndManager(Pageable pageable){
-//        List<CommunityAdminAndManager> adminAndManagers = repository.findAll(pageable).stream().filter(CommunityAdminAndManager::getIsactive).collect(Collectors.toList());
-//        return new PageImpl<>(adminAndManagers);
-//    }
-
 }

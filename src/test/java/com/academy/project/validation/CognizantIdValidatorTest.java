@@ -11,11 +11,11 @@ public class CognizantIdValidatorTest {
     @DisplayName("Given a CommunityAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should throw InvalidInputException.class")
-    public void checkIfCognizantIdIsNull() {
+    public void checkIfCognizantIdIsNull() throws InvalidInputException {
         //Arrange
         Validator validator = new Validator();
         //Act
-        NullPointerException thrown = assertThrows(NullPointerException.class, () -> {
+        InvalidInputException thrown = assertThrows(InvalidInputException.class, () -> {
             validator.checkCognizantIdIfValid(null);
         });
         //Assert

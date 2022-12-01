@@ -50,17 +50,12 @@ public class CommunityAdminAndManagerController {
           return new ResponseEntity<>("Successfully deleted!", HttpStatus.OK);
       }
     @GetMapping
-    public CustomPage<GetAllActiveCommunityAdminAndManagerRest> getAllActiveCommunityAdminAndManager(@PathParam("offset")int offset, @PathParam("size")int size, Pageable pageable) {
-        pageable = PageRequest.of(offset, size);
-        Page<CommunityAdminAndManager> manager = service.getAllActiveCommunityAdminAndManager(pageable);
-        List<GetAllActiveCommunityAdminAndManagerRest> getAllActive = manager.stream().map(communityAdminAndManager -> modelMapper.map(communityAdminAndManager, GetAllActiveCommunityAdminAndManagerRest.class)).toList();
-        return new CustomPage<GetAllActiveCommunityAdminAndManagerRest>(new PageImpl<>(getAllActive));
-    }
-    @GetMapping("/default")
-    public CustomPage<GetAllActiveCommunityAdminAndManagerRest>defaultGetAllActiveCommunityAdminAndManager(Pageable pageable) {
-        Page<CommunityAdminAndManager> manager1 = service.defaultGetAllActiveCommunityAdminAndManager(pageable);
-        List<GetAllActiveCommunityAdminAndManagerRest> getAllActive1 = manager1.stream().map(communityAdminAndManager -> modelMapper.map(communityAdminAndManager, GetAllActiveCommunityAdminAndManagerRest.class)).toList();
-        return new CustomPage<GetAllActiveCommunityAdminAndManagerRest>(new PageImpl<>(getAllActive1));
+    public CustomPage<GetAllActiveCommunityAdminAndManagerRest> getAllActiveCommunityAdminAndManager(@PathParam("size") Integer size, @PathParam("offset")Integer offset) throws InvalidInputException {
+        List<CommunityAdminAndManager> manager = service.getAllActiveCommunityAdminAndManager(size, offset);
+        List<GetAllActiveCommunityAdminAndManagerRest> getAllActive = manager.stream()
+                .map(communityAdminAndManager -> modelMapper
+                        .map(communityAdminAndManager, GetAllActiveCommunityAdminAndManagerRest.class)).toList();
+        return new CustomPage<GetAllActiveCommunityAdminAndManagerRest>(new PageImpl<>(getAllActive), HttpStatus.OK, service.count());
 
     }
 }
