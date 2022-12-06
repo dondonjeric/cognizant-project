@@ -4,6 +4,7 @@ package com.academy.project;
 import com.academy.project.dto.CreateCommunityAdminAndManagerRest;
 import com.academy.project.dto.UpdateCommunityAdminAndManagerRest;
 import com.academy.project.exception.InvalidInputException;
+import com.academy.project.exception.RecordNotFoundException;
 import com.academy.project.model.CommunityAdminAndManager;
 import com.academy.project.service.CommunityAdminAndManagerService;
 import com.academy.project.validation.Validator;
@@ -26,8 +27,7 @@ import java.io.UnsupportedEncodingException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -683,7 +683,13 @@ public class CommunityAdminAndManagerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-
+    @Test
+    public void testDeletedCommunityAndAdminManager() throws Exception {
+        doThrow(RecordNotFoundException.class).when(communityAdminAndManagerService).deleteCommunityManagerAndAdmin(1L);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/community/manager/{id}",1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 
 
 

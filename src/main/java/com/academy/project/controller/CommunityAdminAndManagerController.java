@@ -32,25 +32,28 @@ public class CommunityAdminAndManagerController {
     private ModelMapper modelMapper;
 
     @PutMapping("/{id}")
-    private ResponseEntity<String> updateCommunityAdminAndManager(@RequestBody UpdateCommunityAdminAndManagerRest updateManager, @PathVariable Long id){
+    private ResponseEntity<String> updateCommunityAdminAndManager(@RequestBody UpdateCommunityAdminAndManagerRest updateManager, @PathVariable Long id) {
         updateManager.setId(id);
         CommunityAdminAndManager manager = modelMapper.map(updateManager, CommunityAdminAndManager.class);
         service.updateCommunityManagerAndAdmin(manager);
         return new ResponseEntity<>("Successfully updated!", HttpStatus.OK);
     }
+
     @PostMapping
     public ResponseEntity<String> addCommunityAndAdminManager(@RequestBody CreateCommunityAdminAndManagerRest create) {
         CommunityAdminAndManager manager = modelMapper.map(create, CommunityAdminAndManager.class);
         service.addCommunityAdminAndManager(manager);
         return new ResponseEntity<>("Successfully registered!", HttpStatus.OK);
     }
-      @DeleteMapping("/{id}")
-     public ResponseEntity<String> deleteCommunityManagerAndAdmin(@PathVariable Long id) {
-          service.deleteCommunityManagerAndAdmin(id);
-          return new ResponseEntity<>("Successfully deleted!", HttpStatus.OK);
-      }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCommunityManagerAndAdmin(@PathVariable Long id) {
+        service.deleteCommunityManagerAndAdmin(id);
+        return new ResponseEntity<>("Successfully deleted!", HttpStatus.OK);
+    }
+
     @GetMapping
-    public CustomPage<GetAllActiveCommunityAdminAndManagerRest> getAllActiveCommunityAdminAndManager(@PathParam("size") Integer size, @PathParam("offset")Integer offset) throws InvalidInputException {
+    public CustomPage<GetAllActiveCommunityAdminAndManagerRest> getAllActiveCommunityAdminAndManager(@PathParam("size") Integer size, @PathParam("offset") Integer offset) throws InvalidInputException {
         List<CommunityAdminAndManager> manager = service.getAllActiveCommunityAdminAndManager(size, offset);
         List<GetAllActiveCommunityAdminAndManagerRest> getAllActive = manager.stream()
                 .map(communityAdminAndManager -> modelMapper
