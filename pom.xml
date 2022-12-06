@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.academy</groupId>
 	<artifactId>project</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<name>Team 1 Project</name>
 	<description>Sandbox Project for Spring Boot</description>
 	<properties>

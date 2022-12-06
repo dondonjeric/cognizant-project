@@ -1,4 +1,4 @@
-package com.academy.project.get;
+package com.academy.project.controller;
 
 import com.academy.project.CommunityAdminAndManagerControllerTest;
 import com.academy.project.controller.CommunityAdminAndManagerController;
