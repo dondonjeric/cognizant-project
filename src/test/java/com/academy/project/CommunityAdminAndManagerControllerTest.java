@@ -35,11 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CommunityAdminAndManagerControllerTest {
     @MockBean
     private CommunityAdminAndManagerService communityAdminAndManagerService;
-
-
     @Autowired
     private MockMvc mockMvc;
-
 
     @Test
     @DisplayName("" +

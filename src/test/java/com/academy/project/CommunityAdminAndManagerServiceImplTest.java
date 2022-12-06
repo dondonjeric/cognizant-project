@@ -157,10 +157,10 @@ public class CommunityAdminAndManagerServiceImplTest {
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L, "asb", "veripro@gmail.com", "veripro", "admin1", "admin", false);
         //ACT
-        when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(expected));
+        when(repository.findById(anyLong())).thenReturn(Optional.of(expected));
         //ASSERT
         assertThrows(RecordNotFoundException.class, () -> {
-            communityAdminAndManagerService.deleteCommunityManagerAndAdmin(1L);
+            service.deleteCommunityManagerAndAdmin(1L);
         });
 
     }
@@ -173,10 +173,10 @@ public class CommunityAdminAndManagerServiceImplTest {
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L, "asb", "veripro@gmail.com", "veripro", "admin1", "admin", false);
         //ACT
-        when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(expected));
+        when(repository.findById(anyLong())).thenReturn(Optional.of(expected));
         //ASSERT
         assertThrows(RecordNotFoundException.class, () -> {
-            communityAdminAndManagerService.deleteCommunityManagerAndAdmin(10L);
+            service.deleteCommunityManagerAndAdmin(10L);
         });
     }
     @Test
@@ -187,8 +187,8 @@ public class CommunityAdminAndManagerServiceImplTest {
         //ARRANGE
         CommunityAdminAndManager expected = new CommunityAdminAndManager(1L, "asb", "veripro@gmail.com", "veripro", "admin1", "admin", true);
         //ACT
-        when(communityManagerRepository.findById(anyLong())).thenReturn(Optional.of(expected));
-        communityAdminAndManagerService.deleteCommunityManagerAndAdmin(1L);
+        when(repository.findById(anyLong())).thenReturn(Optional.of(expected));
+        service.deleteCommunityManagerAndAdmin(1L);
         //ASSERT
         assertFalse(expected.getIsactive());
     }
