@@ -17,6 +17,6 @@ public interface CommunityAdminAndManagerRepository extends JpaRepository<Commun
     List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Integer size, Integer offset);
     @Query(value = "SELECT * FROM communityadminandmanager WHERE isactive = TRUE ORDER BY communityadminandmanager", nativeQuery = true)
     List<CommunityAdminAndManager> getAllIsActive();
-    @Query(value = "SELECT COUNT(communityadminandmanager) FROM communityadminandmanager", nativeQuery = true)
+    @Query(value = "SELECT COUNT(communityadminandmanager) FROM communityadminandmanager WHERE isactive = TRUE", nativeQuery = true)
     Long counts();
 }

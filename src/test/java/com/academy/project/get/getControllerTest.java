@@ -30,16 +30,11 @@ public class getControllerTest {
     @MockBean
     private CommunityAdminAndManagerService service;
 
-    @MockBean
-    private CommunityAdminAndManagerRepository repository;
 
     CommunityAdminAndManager entity1 = new CommunityAdminAndManager();
     CommunityAdminAndManager entity2 = new CommunityAdminAndManager();
     CommunityAdminAndManager entity3 = new CommunityAdminAndManager();
     CommunityAdminAndManager entity4 = new CommunityAdminAndManager();
-
-
-
 
     @Test
     @DisplayName("GIVEN the setup above"+
@@ -82,7 +77,7 @@ public class getControllerTest {
         entity4.setRoleType("Manager");
         entity4.setIsactive(FALSE);
 
-        when(service.getAllActiveCommunityAdminAndManager(null,null)).thenReturn(List.of(entity1,entity2,entity3,entity4));
+        when(service.getAllActiveCommunityAdminAndManager(null,null)).thenReturn(List.of(entity1,entity2,entity3));
 
         mockMvc.perform(get("/community/manager")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -105,15 +100,69 @@ public class getControllerTest {
                 .andExpect(jsonPath("$.content[2].name").value("Test3"))
                 .andExpect(jsonPath("$.content[2].cognizantId").value("300123"))
                 .andExpect(jsonPath("$.content[2].email").value("test3@softvision.com"))
-                .andExpect(jsonPath("$.content[2].roleType").value("Manager"))
+                .andExpect(jsonPath("$.content[2].roleType").value("Manager"));
+    }
 
-               /* .andExpect(jsonPath("$.content[3].id").value("4"))
-                .andExpect(jsonPath("$.content[3].name").value("Test4"))
-                .andExpect(jsonPath("$.content[3].cognizantId").value("400123"))
-                .andExpect(jsonPath("$.content[3].email").value("test4@softvision.com"))
-                .andExpect(jsonPath("$.content[3].roleType").value("Manager"))*/
-                .andDo(print());
 
+    @Test
+    @DisplayName("GIVEN the setup above"+
+            "WHEN size is set to 2 and offset is set to 1"+
+            "THEN result should return entity 2 and 3")
+    public void testGetAll() throws Exception {
+        //entity 1
+        entity1.setId(Long.parseLong("1"));
+        entity1.setName("Test1");
+        entity1.setCognizantId("100123");
+        entity1.setEmail("test1@softvision.com");
+        entity1.setPassword("1001234");
+        entity1.setRoleType("Admin");
+        entity1.setIsactive(TRUE);
+
+        //entity 2
+        entity2.setId(Long.parseLong("2"));
+        entity2.setName("Test2");
+        entity2.setCognizantId("200123");
+        entity2.setEmail("test2@softvision.com");
+        entity2.setPassword("2001234");
+        entity2.setRoleType("Admin");
+        entity2.setIsactive(TRUE);
+
+        //entity 3
+        entity3.setId(Long.parseLong("3"));
+        entity3.setName("Test3");
+        entity3.setCognizantId("300123");
+        entity3.setEmail("test3@softvision.com");
+        entity3.setPassword("3001234");
+        entity3.setRoleType("Manager");
+        entity3.setIsactive(TRUE);
+
+        //entity 4
+        entity4.setId(Long.parseLong("4"));
+        entity4.setName("Test4");
+        entity4.setCognizantId("400123");
+        entity4.setEmail("test4@softvision.com");
+        entity4.setPassword("4001234");
+        entity4.setRoleType("Manager");
+        entity4.setIsactive(TRUE);
+
+        when(service.getAllActiveCommunityAdminAndManager(2,1)).thenReturn(List.of(entity1,entity2,entity3,entity4));
+
+        mockMvc.perform(get("/community/manager?size=2&offset=1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+
+                .andExpect(jsonPath("$.content[1].id").value("2"))
+                .andExpect(jsonPath("$.content[1].name").value("Test2"))
+                .andExpect(jsonPath("$.content[1].cognizantId").value("200123"))
+                .andExpect(jsonPath("$.content[1].email").value("test2@softvision.com"))
+                .andExpect(jsonPath("$.content[1].roleType").value("Admin"))
+
+                .andExpect(jsonPath("$.content[2].id").value("3"))
+                .andExpect(jsonPath("$.content[2].name").value("Test3"))
+                .andExpect(jsonPath("$.content[2].cognizantId").value("300123"))
+                .andExpect(jsonPath("$.content[2].email").value("test3@softvision.com"))
+                .andExpect(jsonPath("$.content[2].roleType").value("Manager"));
 
     }
 }
