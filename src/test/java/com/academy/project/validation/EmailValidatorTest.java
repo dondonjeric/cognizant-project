@@ -15,7 +15,7 @@ public class EmailValidatorTest {
             "Given a CommunityAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should return true")
-    public void checkIfEmailIsNull() throws InvalidInputException, RecordNotFoundException {
+    public void checkIfEmailIsNull() {
         //ARRANGE
         Validator validator = new Validator();
         //ACT
@@ -30,7 +30,7 @@ public class EmailValidatorTest {
             "Given a CommunityAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should return true")
-    public void checkIfEmailIsInvalidFormat() throws InvalidInputException {
+    public void checkIfEmailIsInvalidFormat() {
         //ARRANGE
         Validator validator = new Validator();
         //ACT

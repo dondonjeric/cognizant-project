@@ -25,17 +25,17 @@ public class Validator
         return repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record not found!"));
     }
 
-    public void checkUpdateIfValid(CommunityAdminAndManager updateManager) throws InvalidInputException, RecordNotFoundException {
+    public void checkUpdateIfValid(CommunityAdminAndManager updateManager) {
         CommunityAdminAndManager manager = checkIfValidId(updateManager.getId());
         if(!manager.getIsactive()){
             throw new RecordNotFoundException("Record not found!");
         }
         checkNameIfValid(updateManager.getName());
     }
-    public void checkCreateIfValid(CommunityAdminAndManager manager) throws InvalidInputException, RecordNotFoundException {
+    public void checkCreateIfValid(CommunityAdminAndManager manager)  {
         checkIfValid(manager);
     }
-    public void checkIfValid(CommunityAdminAndManager manager) throws InvalidInputException {
+    public void checkIfValid(CommunityAdminAndManager manager) {
         checkNameIfValid(manager.getName());
         checkEmailIfValid(manager.getEmail());
         checkCognizantIdIfValid(manager.getCognizantId());
@@ -43,7 +43,7 @@ public class Validator
         checkRoleTypeIfValid(manager.getRoleType());
     }
 
-    public void checkNameIfValid(String name) throws InvalidInputException {
+    public void checkNameIfValid(String name) {
         if(name == null || name.isBlank()){
             throw new InvalidInputException("Name is required!");
         }
@@ -70,12 +70,12 @@ public class Validator
         if(!email.matches(EMAIL)){
             throw new InvalidInputException("Invalid email format!");
         }
-        Optional<String> existing= repository.findByEmail(email);
+        Optional<CommunityAdminAndManager> existing= repository.findByEmailAndIsactive(email,true);
         if(existing.isPresent()){
             throw new InvalidInputException("Email must be unique");
         }
     }
-    public void checkPasswordIfValid(String password) throws InvalidInputException {
+    public void checkPasswordIfValid(String password) {
         if(password == null || password.isBlank()){
             throw new InvalidInputException("Password is required!");
         }
@@ -88,7 +88,7 @@ public class Validator
         }
 
     }
-    public void checkCognizantIdIfValid(String cognizantId) throws InvalidInputException {
+    public void checkCognizantIdIfValid(String cognizantId) {
         if(cognizantId == null || cognizantId.isBlank()){
             throw new InvalidInputException("CognizantId is required!");
         }
@@ -98,12 +98,12 @@ public class Validator
         if(!cognizantId.matches(COGNIZANT_ID)){
             throw new InvalidInputException("CognizantId should not contain invalid characters!");
         }
-        Optional<String> existing= repository.findByCognizantId(cognizantId);
+        Optional<CommunityAdminAndManager> existing= repository.findByCognizantIdAndIsactive(cognizantId,true);
         if(existing.isPresent()){
             throw new InvalidInputException("CognizantId must be unique");
         }
     }
-    public void checkRoleTypeIfValid(String roleType) throws InvalidInputException {
+    public void checkRoleTypeIfValid(String roleType) {
         if(roleType == null || roleType.isBlank()){
             throw new InvalidInputException("Roletype is required!");
         }
@@ -114,23 +114,18 @@ public class Validator
             throw new InvalidInputException("Invalid roletype given!");
         }
     }
-    public void checkFilter(Integer size, Integer offset) throws InvalidInputException {
+    public void checkFilter(Integer size, Integer offset) {
         if (size == null || offset == null) {
             throw new InvalidInputException("Not a Valid Argument");
         }
-
         if (size < 0 && offset < 0) {
             throw new InvalidInputException("Invalid Size and Offset Value");
         }
-        if(size < 0 ){
+        if(size < 1){
             throw new InvalidInputException("Invalid Size Value");
         }
         if (offset < 0){
             throw new InvalidInputException("Invalid Offset Value");
-        }
-
-        if (offset == 0 & size == 0){
-            throw new InvalidInputException ("No Record Found");
         }
     }
 }

@@ -12,7 +12,7 @@ class NameValidatorTest {
     @DisplayName("Given a CommunitAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should throw InvalidInputException.class")
-    public void checkIfNameInputNull() throws InvalidInputException {
+    public void checkIfNameInputNull() {
         //Arrange
         Validator validator = new Validator();
         //Act
@@ -27,7 +27,7 @@ class NameValidatorTest {
     @DisplayName("Given a CommunitAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should throw InvalidInputException.class")
-    public void checkIfNameIfOneCharacter() throws InvalidInputException {
+    public void checkIfNameIfOneCharacter() {
         //Arrange
         Validator validator = new Validator();
        //Act
@@ -41,7 +41,7 @@ class NameValidatorTest {
     @DisplayName("Given a CommunitAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should throw InvalidInputException.class")
-    public void checkIfNameIfExceed100Characters() throws InvalidInputException {
+    public void checkIfNameIfExceed100Characters() {
         //Arrange
         Validator validator = new Validator();
         //Act
@@ -56,7 +56,7 @@ class NameValidatorTest {
     @DisplayName("Given a CommunitAdminAndManager with the setup above " +
             "When checkIfValid(CommunityAdminAndManager.class) is executed " +
             "Then result should throw InvalidInputException.class")
-    public void checkIfNameIfContainsSpecialCharacters() throws InvalidInputException {
+    public void checkIfNameIfContainsSpecialCharacters() {
         //Arrange
         Validator validator = new Validator();
         //Act

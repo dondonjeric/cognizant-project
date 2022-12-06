@@ -11,9 +11,12 @@ import java.util.Optional;
 @Repository
 public interface CommunityAdminAndManagerRepository extends JpaRepository<CommunityAdminAndManager, Long> {
 
-    Optional<String> findByEmail(String email);
-    Optional<String> findByCognizantId(String cognizantId);
+    Optional<CommunityAdminAndManager> findByEmailAndIsactive(String email,Boolean isactive);
+    Optional<CommunityAdminAndManager> findByCognizantIdAndIsactive(String cognizantId,Boolean isactive);
     @Query(value = "Select * from communityadminandmanager WHERE isactive = TRUE LIMIT ?1 OFFSET ?2 ", nativeQuery = true)
     List<CommunityAdminAndManager> getAllActiveCommunityAdminAndManager(Integer size, Integer offset);
-
+    @Query(value = "SELECT * FROM communityadminandmanager WHERE isactive = TRUE ORDER BY communityadminandmanager", nativeQuery = true)
+    List<CommunityAdminAndManager> getAllIsActive();
+    @Query(value = "SELECT COUNT(communityadminandmanager) FROM communityadminandmanager", nativeQuery = true)
+    Long counts();
 }
