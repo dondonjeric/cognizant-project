@@ -27,8 +27,12 @@ public class Validator
 
     public void checkUpdateIfValid(CommunityAdminAndManager updateManager) {
         CommunityAdminAndManager manager = checkIfValidId(updateManager.getId());
+        System.out.println(manager.getIsactive());
         if(!manager.getIsactive()){
             throw new RecordNotFoundException("Record not found!");
+        }
+        if(updateManager.getIsactive() != true){
+            throw new InvalidInputException("IsActive cannot be updated!");
         }
         checkNameIfValid(updateManager.getName());
     }

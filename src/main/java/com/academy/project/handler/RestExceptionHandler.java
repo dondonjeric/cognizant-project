@@ -1,6 +1,5 @@
 package com.academy.project.handler;
 
-import com.academy.project.exception.InvalidDeleteException;
 import com.academy.project.exception.InvalidInputException;
 import com.academy.project.exception.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -19,10 +18,6 @@ public class RestExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<String> recordNotFoundException(RecordNotFoundException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-    @ExceptionHandler
-    public ResponseEntity<String> invalidDeleteException(InvalidDeleteException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
