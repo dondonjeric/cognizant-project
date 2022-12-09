@@ -36,6 +36,7 @@ public class RequestMapper extends ModelMapper {
             protected void configure() {
                 map().setId(source.getId());
                 map().setName(source.getName());
+                map().setIsactive(source.getIsactive());
             }
         };
     }

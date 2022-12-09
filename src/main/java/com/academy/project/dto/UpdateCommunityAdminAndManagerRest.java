@@ -7,4 +7,5 @@ public class UpdateCommunityAdminAndManagerRest {
 
     private Long id;
     private String name;
+    private Boolean isactive = true;
 }
