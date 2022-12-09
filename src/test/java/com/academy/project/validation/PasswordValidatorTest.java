@@ -1,7 +1,7 @@
 package com.academy.project.validation;
 
 import com.academy.project.exception.InvalidInputException;
-import com.academy.project.exception.RecordNotFoundException;
+import com.academy.project.helper.Validator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

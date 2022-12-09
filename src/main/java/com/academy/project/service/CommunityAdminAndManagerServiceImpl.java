@@ -3,7 +3,7 @@ package com.academy.project.service;
 import com.academy.project.exception.RecordNotFoundException;
 import com.academy.project.model.CommunityAdminAndManager;
 import com.academy.project.repository.CommunityAdminAndManagerRepository;
-import com.academy.project.validation.Validator;
+import com.academy.project.helper.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

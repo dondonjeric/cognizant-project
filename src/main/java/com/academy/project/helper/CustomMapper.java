@@ -1,4 +1,4 @@
-package com.academy.project.mapper;
+package com.academy.project.helper;
 
 
 import com.academy.project.dto.CreateCommunityAdminAndManagerRest;
@@ -10,11 +10,12 @@ import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RequestMapper extends ModelMapper {
+public class CustomMapper extends ModelMapper {
 
-    public RequestMapper(){
+    public CustomMapper(){
         this.addMappings(updateMapper());
         this.addMappings(createMapper());
+        this.addMappings(getMapper());
     }
 
     private PropertyMap<CreateCommunityAdminAndManagerRest, CommunityAdminAndManager> createMapper(){

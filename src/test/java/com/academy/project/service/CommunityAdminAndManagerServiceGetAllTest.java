@@ -3,7 +3,7 @@ package com.academy.project.service;
 import com.academy.project.exception.InvalidInputException;
 import com.academy.project.model.CommunityAdminAndManager;
 import com.academy.project.repository.CommunityAdminAndManagerRepository;
-import com.academy.project.validation.Validator;
+import com.academy.project.helper.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
