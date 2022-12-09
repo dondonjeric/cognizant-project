@@ -4,7 +4,7 @@ import com.academy.project.dto.UpdateCommunityAdminAndManagerRest;
 import com.academy.project.exception.InvalidInputException;
 import com.academy.project.model.CommunityAdminAndManager;
 import com.academy.project.service.CommunityAdminAndManagerService;
-import com.academy.project.validation.Validator;
+import com.academy.project.helper.Validator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

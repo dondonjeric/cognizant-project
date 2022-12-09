@@ -1,4 +1,4 @@
-package com.academy.project.validation;
+package com.academy.project.helper;
 
 import com.academy.project.exception.InvalidInputException;
 import com.academy.project.exception.RecordNotFoundException;
